@@ -1,34 +1,85 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import { DataContext } from "../context/dataContext";
 import Task from "../components/task";
+import Layout from "../components/layout";
+import { Link } from "react-router-dom";
+import Button from "../components/Utils/button";
+import { notify } from "../utilities/toast";
+import Spinner from "../components/Utils/spinner";
+import { deleteTask } from "../api/apiUtils";
 
 const TasksPage = () => {
-  const { getData } = useContext(DataContext);
-  const [tasks, setTasks] = useState([]);
+  const { getData, tasks, setTasks, deleteTaskById } = useContext(DataContext);
 
-  const getTasks = async () => {
-    const response = await getData();
-    setTasks(response);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  const executeDelete = (e) => {
+    return deleteTask(e, tasks, setTasks, deleteTaskById, notify);
   };
 
+  const parseData = useCallback(
+    (array) => {
+      const newData = array.reduce(
+        (acc, el) => ({
+          ...acc,
+          [el.id]: el,
+        }),
+        {}
+      );
+
+      setTasks(newData);
+    },
+    [setTasks]
+  );
+
   useEffect(() => {
+    console.log("useEffect");
+
+    const getTasks = async () => {
+      try {
+        const data = await getData();
+        data && parseData(data);
+        setLoading(false);
+      } catch (error) {
+        if (error) {
+          setLoading(false);
+          setError(true);
+        }
+      }
+    };
+
     getTasks();
-  });
+  }, []);
+
+  const hasTasks = () => {
+    const data = Object.values(tasks);
+    if (!(data && data.length !== 0)) return <p>add your first task</p>;
+
+    const result = data.map((task) => {
+      return <Task key={task.id} {...task} fn={executeDelete}></Task>;
+    });
+
+    return result;
+  };
+
+  const handleError = (error) => {
+    if (error) return <p>404 not foud</p>;
+    return hasTasks();
+  };
 
   return (
-    <div className="w-3/4 mx-auto flex flex-col items-center justify-center">
+    <Layout>
       <div className="m-8 w-full flex items-center justify-around">
         <h1 className="text-blue-900 font-bold text-3xl text-center flex-auto">
           Todo app
         </h1>
-        <button className="bg-blue-900 text-white  m-2 px-2 py-1 rounded-md flex-initial">
-          Add Task
-        </button>
+        <Link to="/create">
+          <Button name="add task" />
+        </Link>
       </div>
-      {tasks.map((task) => {
-        return <Task key={task.id} {...task} />;
-      })}
-    </div>
+      {loading ? <Spinner /> : handleError(error)}
+    </Layout>
   );
 };
 

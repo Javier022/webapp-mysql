@@ -1,21 +1,28 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-const task = ({ id, title, description }) => {
-  const deleteTask = (taskId) => {
-    console.log(taskId, "eliminaste la tarea");
-  };
+const Task = (props) => {
+  const { id, title, description, fn } = props;
+  //console.log(props);
 
   return (
-    <div className="w-full p-4 mb-8  mx-auto bg-white rounded-xl shadow flex items-center">
+    <div
+      // data-id={id}
+      className="w-full p-4 mb-8 mx-auto border bg-white rounded-xl shadow flex items-center"
+    >
       <div className="flex-1">
-        <div className="text-blue-900 text-xl font-medium text-black">
-          {title}
-        </div>
-        <p className="text-gray-500">{description}</p>
+        <Link to={`/task/${id}`}>
+          <div className="text-blue-900 text-xl font-medium text-black">
+            {title}
+          </div>
+          <p className="text-gray-500">{description}</p>
+        </Link>
       </div>
-      <div className="flex-initial">
+
+      <div className="flex-initial ">
         <button
-          onClick={() => deleteTask(id)}
+          data-id={id}
+          onClick={(e) => fn(e)}
           className="text-xs bg-red-600 text-white rounded p-1"
         >
           delete
@@ -25,4 +32,4 @@ const task = ({ id, title, description }) => {
   );
 };
 
-export default task;
+export default Task;
