@@ -3,13 +3,9 @@ import { Link } from "react-router-dom";
 
 const Task = (props) => {
   const { id, title, description, fn } = props;
-  //console.log(props);
 
   return (
-    <div
-      // data-id={id}
-      className="w-full p-4 mb-8 mx-auto border bg-white rounded-xl shadow flex items-center"
-    >
+    <div className="w-full p-4 mb-8 mx-auto border bg-white rounded-xl shadow flex items-center">
       <div className="flex-1">
         <Link to={`/task/${id}`}>
           <div className="text-blue-900 text-xl font-medium text-black">

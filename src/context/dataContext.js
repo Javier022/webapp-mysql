@@ -31,9 +31,7 @@ export const DataProvider = ({ children }) => {
 
       const res = await req.data;
 
-      if (res.succes) {
-        return res;
-      } else console.log("ha ocurrido un error");
+      if (res.succes) return res;
     } catch (error) {
       throw new Error(error);
     }
@@ -41,7 +39,7 @@ export const DataProvider = ({ children }) => {
 
   const createNewTask = async (body) => {
     if (!body) {
-      return console.log("mandar body");
+      return console.log("send body");
     }
 
     try {
@@ -65,7 +63,7 @@ export const DataProvider = ({ children }) => {
 
   const updateTask = async (id, body) => {
     if (!body) {
-      return console.log("mandar body");
+      return console.log("send body");
     }
 
     try {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useCallback } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { DataContext } from "../context/dataContext";
 import Task from "../components/task";
 import Layout from "../components/layout";
@@ -18,39 +18,43 @@ const TasksPage = () => {
     return deleteTask(e, tasks, setTasks, deleteTaskById, notify);
   };
 
-  const parseData = useCallback(
-    (array) => {
-      const newData = array.reduce(
-        (acc, el) => ({
-          ...acc,
-          [el.id]: el,
-        }),
-        {}
-      );
+  const parseData = (array) => {
+    const newData = array.reduce(
+      (acc, el) => ({
+        ...acc,
+        [el.id]: el,
+      }),
+      {}
+    );
 
-      setTasks(newData);
-    },
-    [setTasks]
-  );
+    console.log(newData, "data parseada");
+    setTasks(newData);
+  };
+
+  const getTasks = async () => {
+    try {
+      const data = await getData();
+      console.log(data, "respuesta del servidor");
+      data && parseData(data);
+      setLoading(false);
+    } catch (error) {
+      if (error) {
+        setLoading(false);
+        setError(true);
+      }
+    }
+  };
 
   useEffect(() => {
     console.log("useEffect");
 
-    const getTasks = async () => {
-      try {
-        const data = await getData();
-        data && parseData(data);
-        setLoading(false);
-      } catch (error) {
-        if (error) {
-          setLoading(false);
-          setError(true);
-        }
-      }
-    };
-
     getTasks();
   }, []);
+
+  const handleError = (error) => {
+    if (error) return <p>404 not foud</p>;
+    return hasTasks();
+  };
 
   const hasTasks = () => {
     const data = Object.values(tasks);
@@ -61,11 +65,6 @@ const TasksPage = () => {
     });
 
     return result;
-  };
-
-  const handleError = (error) => {
-    if (error) return <p>404 not foud</p>;
-    return hasTasks();
   };
 
   return (

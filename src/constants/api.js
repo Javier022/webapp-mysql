@@ -1,1 +1,1 @@
-export const api = "https://mysql-api-hrz09.herokuapp.com";
+export const api = process.env.REACT_APP_ENDPOINT;

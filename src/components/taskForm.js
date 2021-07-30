@@ -1,4 +1,4 @@
-import React, { useContext, useState, useRef } from "react";
+import React, { useContext, useState, useRef, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { DataContext } from "../context/dataContext";
 import { validateInput } from "../utilities/validateInput";
@@ -13,11 +13,14 @@ const TaskForm = ({ type, name, message }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [load, setLoad] = useState(false);
+
   let refButton = useRef(null);
 
-  const { createNewTask, updateTask } = useContext(DataContext);
+  const { tasks, createNewTask, updateTask } = useContext(DataContext);
   const history = useHistory();
   const { id } = useParams();
+
+  console.log(tasks, "All tasks");
 
   const sendData = async (e) => {
     e.preventDefault();
@@ -55,6 +58,21 @@ const TaskForm = ({ type, name, message }) => {
       }
     }
   };
+
+  useEffect(() => {
+    console.log("useeffect Form");
+    if (Object.values(tasks).length !== 0 && type === "update") {
+      const task = tasks[id];
+      setTitle(task.title);
+      setDescription(task.description);
+    } else if (Object.values(tasks).length === 0) {
+      // ir a traer la data de nuevo pero tocaria volver a parsearla
+      //de alguna manera guardarla con react usando hooks como memo o use call
+      // con caché tendría que investigar
+      // o con LocalStorage
+      console.log("again getData :(");
+    }
+  }, [id, tasks, type]);
 
   return (
     <>

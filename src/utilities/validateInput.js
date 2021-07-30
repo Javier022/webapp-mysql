@@ -6,7 +6,7 @@ export const validateInput = (title, description, type = "") => {
   }
 
   if (type === "update" && !description.trim()) {
-    error.description = "descripcion requerida";
+    error.description = "descripción requerida";
   } else if (type === "update" && description.length < 2) {
     error.description = "debe ser mayor a 2 caracteres";
   }
