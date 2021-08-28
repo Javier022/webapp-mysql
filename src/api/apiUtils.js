@@ -3,14 +3,15 @@ export const deleteTask = async (
   tasks,
   setTasks,
   deleteTaskById,
+  token,
   notify
 ) => {
   const id = e.target.dataset.id;
 
   try {
-    const result = await deleteTaskById(id);
+    const result = await deleteTaskById(id, token);
 
-    if (result.succes) {
+    if (result.success) {
       delete tasks[id];
 
       setTasks({ ...tasks });

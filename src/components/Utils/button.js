@@ -7,7 +7,7 @@ const Button = (props) => {
     <button
       ref={refButton}
       onClick={fn && fn}
-      className="bg-blue-900 font-bold text-white py-2 px-4 rounded-md flex-initial"
+      className=" w-full bg-blue-900 font-bold text-white py-2 px-4 rounded-md flex-initial"
     >
       {name}
     </button>

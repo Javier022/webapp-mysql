@@ -13,3 +13,15 @@ export const validateInput = (title, description, type = "") => {
 
   return error;
 };
+
+export const hasError = (value, message, type = "", message2 = "") => {
+  let error = {};
+
+  if (!value.trim()) {
+    error.field = message;
+  } else if (type === "login" && value.length < 6) {
+    error.field = message2;
+  }
+
+  return error;
+};
