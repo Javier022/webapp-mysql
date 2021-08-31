@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { DataContext } from "../context/dataContext";
 
 // components
@@ -15,6 +15,7 @@ import { validateEmail } from "../utilities/regExp";
 
 // utils
 import { notify } from "../utilities/toast";
+import Circle from "../components/Utils/circle";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -22,7 +23,8 @@ const Login = () => {
   const [error, setError] = useState({});
   const [alert, setAlert] = useState(false);
 
-  const { login, loading, setLoading, useHistory } = useContext(DataContext);
+  const { login, loading, setLoading, useHistory, fields } =
+    useContext(DataContext);
 
   const history = useHistory();
 
@@ -79,13 +81,10 @@ const Login = () => {
         localStorage.setItem("token", token);
 
         history.push("/home");
-      } else {
-        setLoading(false);
-        throw new Error("ha ocurrido un error");
       }
     } catch (error) {
       setLoading(false);
-      notify("error", "ha ocurrido un error");
+      notify("error", error.message);
       // throw new Error(error);
     }
   };
@@ -93,16 +92,24 @@ const Login = () => {
   alert &&
     setTimeout(() => {
       setAlert(false);
-    }, 4000);
+    }, 5000);
+
+  useEffect(() => {
+    if (fields) {
+      setEmail(fields.email);
+      setPassword(fields.password);
+    }
+  }, [fields]);
 
   return (
     <Layout center={true} showNavigation={false}>
+      <Circle />
+      <p className="text-center w-full text-2xl mb-4">Sign in to App</p>
+
       <div className="w-full max-w-xs">
-        <p className="text-center w-full text-2xl mb-5">Sign in to App</p>
         {alert && (
           <Alert
             message={"email o contraseña incorrecta"}
-            color={"red"}
             fn={() => setAlert(false)}
           />
         )}

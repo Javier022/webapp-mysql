@@ -8,6 +8,7 @@ export const DataContext = createContext();
 export const DataProvider = ({ children }) => {
   const [tasks, setTasks] = useState({});
   const [loading, setLoading] = useState(false);
+  const [fields, setFields] = useState(null);
 
   const getData = async (token) => {
     try {
@@ -133,6 +134,30 @@ export const DataProvider = ({ children }) => {
     return token ? token : null;
   };
 
+  const register = async (body) => {
+    if (!body) {
+      throw new Error("body is required");
+    }
+
+    let config = {
+      headers: {
+        "Type-content": "aplication/json",
+      },
+    };
+
+    try {
+      const request = await axios.post(`${api}/register`, body, config);
+
+      return request;
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
+  const fillFieldsLogin = (email, password, show = false) => {
+    return show ? setFields({ email, password }) : setFields(null);
+  };
+
   const store = {
     loading,
     setLoading,
@@ -146,6 +171,9 @@ export const DataProvider = ({ children }) => {
     readToken,
     useHistory,
     signOut,
+    register,
+    fillFieldsLogin,
+    fields,
   };
 
   return <DataContext.Provider value={store}>{children}</DataContext.Provider>;

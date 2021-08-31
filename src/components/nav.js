@@ -17,7 +17,9 @@ const Navigation = ({ navItems, auth }) => {
   return (
     <header>
       <nav className="bg-blue-900 text-white shadow-md flex justify-between">
-        <p className="inline-block px-6 py-5 font-bold">Todo App</p>
+        <Link to={auth ? "home" : "/"}>
+          <p className="inline-block px-6 py-5 font-bold">Todo App</p>
+        </Link>
         <ul className="flex">
           {navItems.map((item, index) => {
             return (
