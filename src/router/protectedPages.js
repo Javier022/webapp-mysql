@@ -5,11 +5,15 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import TasksPage from "../pages/tasks";
 import AddTaskPage from "../pages/addTask";
 import UpdateTask from "../pages/updateTask";
+import Profile from "../pages/profile";
 
 const ProtectedPages = () => {
   return (
     <Router>
       <Switch>
+        <Route exact path="/profile">
+          <Profile />
+        </Route>
         <Route exact path="/home">
           <TasksPage />
         </Route>
