@@ -127,7 +127,7 @@ const SignUp = () => {
         <div className="mb-6">
           <Input
             label="email"
-            placeHolder="email"
+            placeHolder="example@gmail.com"
             type="email"
             value={email}
             handleChange={(e) => setEmail(e.target.value)}

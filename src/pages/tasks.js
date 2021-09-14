@@ -9,20 +9,15 @@ import Button from "../components/Utils/button";
 import Spinner from "../components/Utils/spinner";
 import { notify } from "../utilities/toast";
 
-// util
-import { UseAuth } from "../utilities/auth";
-
 // router
 import { Link } from "react-router-dom";
 
 const TasksPage = () => {
-  const { getData, tasks, setTasks, deleteTaskById } = useContext(DataContext);
+  const { getData, tasks, setTasks, deleteTaskById, token } =
+    useContext(DataContext);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-
-  // auth
-  const token = UseAuth();
 
   const executeDelete = (e) => {
     return deleteTask(e, tasks, setTasks, deleteTaskById, token, notify);
@@ -59,8 +54,6 @@ const TasksPage = () => {
   }, [getData, parseData, token]);
 
   useEffect(() => {
-    console.log("useEffect");
-
     getTasks();
   }, []);
 

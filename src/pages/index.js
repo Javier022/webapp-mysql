@@ -1,4 +1,4 @@
-import Navigation from "../components/nav";
+import Navigation from "../components/navigation/nav";
 
 const PublicPage = () => {
   return (

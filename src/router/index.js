@@ -1,15 +1,13 @@
 import React from "react";
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 
-// pages
-import ProtectedPages from "./protectedPages";
-import PublicPages from "./publicPages";
-
 // Routes
 import PrivateRoutes from "./privateRoutes";
 import PublicRoutes from "./publicRoutes";
 
-// test
+// pages
+import ProtectedPages from "./protectedPages";
+import PublicPages from "./publicPages";
 
 const Routes = () => {
   return (

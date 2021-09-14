@@ -17,16 +17,27 @@ import { validateEmail } from "../utilities/regExp";
 import { notify } from "../utilities/toast";
 import Circle from "../components/Utils/circle";
 
+//
+import { useLocation } from "react-router-dom";
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState({});
-  const [alert, setAlert] = useState(false);
 
-  const { login, loading, setLoading, useHistory, fields } =
-    useContext(DataContext);
+  const {
+    login,
+    alert,
+    setAlert,
+    loading,
+    setLoading,
+    fields,
+    useHistory,
+    setToken,
+  } = useContext(DataContext);
 
   const history = useHistory();
+  const location = useLocation();
 
   const action = {
     type: "login",
@@ -78,14 +89,19 @@ const Login = () => {
         if (response.success === false) return setAlert(true);
 
         const token = response.data.token;
-        localStorage.setItem("token", token);
+        window.localStorage.setItem("token", token);
 
-        history.push("/home");
+        setToken(token);
+
+        let { from } = location.state || { from: { pathname: "/" } };
+
+        console.log(from);
+
+        return history.replace(from);
       }
     } catch (error) {
       setLoading(false);
       notify("error", error.message);
-      // throw new Error(error);
     }
   };
 
@@ -118,7 +134,7 @@ const Login = () => {
         <div className="mb-6">
           <Input
             label="email"
-            placeHolder="email"
+            placeHolder="example@gmail.com"
             value={email}
             handleChange={(e) => setEmail(e.target.value)}
             focus={true}

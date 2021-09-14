@@ -11,7 +11,7 @@ import { notify } from "../utilities/toast";
 
 // utils
 import { validateInput } from "../utilities/validateInput";
-import { UseAuth } from "../utilities/auth";
+import { useAuth } from "../utilities/useAuth";
 
 const AddTask = () => {
   const [title, setTitle] = useState("");
@@ -24,7 +24,7 @@ const AddTask = () => {
   const history = useHistory();
 
   // auth
-  const token = UseAuth();
+  const token = useAuth();
 
   const action = {
     type: "create",

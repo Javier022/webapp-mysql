@@ -10,7 +10,7 @@ import Button from "../components/Utils/button";
 
 // utils
 import { validateInput } from "../utilities/validateInput";
-import { UseAuth } from "../utilities/auth";
+import { useAuth } from "../utilities/useAuth";
 import { notify } from "../utilities/toast";
 import Spinner from "../components/Utils/spinner";
 
@@ -25,7 +25,7 @@ const UpdateTask = () => {
   const history = useHistory();
 
   // auth
-  const token = UseAuth();
+  const token = useAuth();
 
   const action = {
     type: "update",

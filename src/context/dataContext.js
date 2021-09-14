@@ -9,6 +9,10 @@ export const DataProvider = ({ children }) => {
   const [tasks, setTasks] = useState({});
   const [loading, setLoading] = useState(false);
   const [fields, setFields] = useState(null);
+  const [alert, setAlert] = useState(false);
+  const [token, setToken] = useState(() =>
+    window.localStorage.getItem("token")
+  );
 
   const getData = async (token) => {
     try {
@@ -124,15 +128,19 @@ export const DataProvider = ({ children }) => {
     }
   };
 
-  const signOut = () => {
-    return window.localStorage.removeItem("token");
+  const signOut = (cb) => {
+    window.localStorage.removeItem("token");
+
+    setToken(null);
+
+    return cb();
   };
 
-  const readToken = () => {
-    const token = window.localStorage.getItem("token");
+  // const readToken = () => {
+  //   const token = window.localStorage.getItem("token");
 
-    return token ? token : null;
-  };
+  //   return token ? token : null;
+  // };
 
   const register = async (body) => {
     if (!body) {
@@ -161,17 +169,26 @@ export const DataProvider = ({ children }) => {
   const store = {
     loading,
     setLoading,
+    // tasks
     getData,
     tasks,
     setTasks,
     deleteTaskById,
     createNewTask,
     updateTask,
-    login,
-    readToken,
-    useHistory,
-    signOut,
+    // alert
+    alert,
+    setAlert,
+
+    //auth
+    // readToken,
+    token,
+    setToken,
     register,
+    login,
+    signOut,
+
+    useHistory,
     fillFieldsLogin,
     fields,
   };

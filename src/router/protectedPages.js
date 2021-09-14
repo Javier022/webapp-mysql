@@ -11,9 +11,6 @@ const ProtectedPages = () => {
   return (
     <Router>
       <Switch>
-        <Route exact path="/profile">
-          <Profile />
-        </Route>
         <Route exact path="/home">
           <TasksPage />
         </Route>
@@ -24,6 +21,10 @@ const ProtectedPages = () => {
 
         <Route path="/task/:id">
           <UpdateTask />
+        </Route>
+
+        <Route path="/profile">
+          <Profile />
         </Route>
       </Switch>
     </Router>
