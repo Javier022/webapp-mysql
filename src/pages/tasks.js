@@ -5,21 +5,28 @@ import { deleteTask } from "../api/apiUtils";
 // components
 import Task from "../components/task";
 import Layout from "../components/layout";
-import Button from "../components/Utils/button";
+// import Button from "../components/Utils/button";
 import Spinner from "../components/Utils/spinner";
 import { notify } from "../utilities/toast";
 
 // router
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 const TasksPage = () => {
-  const { getData, tasks, setTasks, deleteTaskById, token } =
-    useContext(DataContext);
+  //provider
+  const {
+    token,
+    getData,
+    tasks,
+    setTasks,
+    deleteTaskById,
+    loading,
+    setLoading,
+  } = useContext(DataContext);
 
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
-  const executeDelete = (e) => {
+  const executeDeleteTask = (e) => {
     return deleteTask(e, tasks, setTasks, deleteTaskById, token, notify);
   };
 
@@ -40,18 +47,22 @@ const TasksPage = () => {
 
   const getTasks = useCallback(async () => {
     try {
+      setLoading(true);
       const data = await getData(token);
 
-      data && parseData(data);
-      setLoading(false);
-    } catch (error) {
-      if (error) {
-        console.log(error);
+      if (data && data.length !== 0) {
+        parseData(data);
         setLoading(false);
-        setError(true);
+      } else {
+        setLoading(false);
+        setTasks({});
       }
+    } catch (error) {
+      setLoading(false);
+      setError(true);
+      notify("error", error.message);
     }
-  }, [getData, parseData, token]);
+  }, [getData, parseData, token, setLoading, setTasks]);
 
   useEffect(() => {
     getTasks();
@@ -66,11 +77,11 @@ const TasksPage = () => {
     const data = Object.values(tasks);
     if (!(data && data.length !== 0)) return <p>add your first task</p>;
 
-    const result = data.map((task) => {
-      return <Task key={task.id} {...task} fn={executeDelete}></Task>;
+    const paintTasks = data.map((task) => {
+      return <Task key={task.id} {...task} fn={executeDeleteTask}></Task>;
     });
 
-    return result;
+    return paintTasks;
   };
 
   return (

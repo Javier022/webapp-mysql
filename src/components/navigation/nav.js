@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import "./nav.css";
 
 // router
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 //utils
 import { useAuth } from "../../utilities/useAuth";
@@ -33,8 +33,12 @@ const mobileMenuPrivateItems = [
     href: "/home",
   },
   {
-    caption: "add Task",
+    caption: "Add task",
     href: "/create",
+  },
+  {
+    caption: "Profile",
+    href: "/Profile",
   },
 ];
 const mobileMenuPublicItems = [
@@ -52,11 +56,8 @@ const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const auth = useAuth();
-  const history = useHistory();
 
-  const logOut = () => {
-    auth.signOut(() => history.push("/"));
-  };
+  console.log(auth.dataProfile);
 
   let mainMenu = auth.token ? protectedItems : publicItems;
 
@@ -103,12 +104,11 @@ const Navigation = () => {
                   aria-expanded="false"
                   aria-haspopup="true"
                 >
-                  <span className="sr-only">Open user menu</span>
-                  <img
-                    className="h-8 w-8 rounded-full"
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                    alt=""
-                  />
+                  <div className="flex items-center justify-center w-8 h-8 rounded-full bg-white">
+                    <p className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-900 to-blue-700">
+                      {auth.dataProfile.username?.[0].toUpperCase()}
+                    </p>
+                  </div>
                 </button>
               </div>
               <div className="opacity-0 invisible dropdown-menu transition-all duration-300 transform origin-top-right -translate-y-2 scale-95">
@@ -121,7 +121,7 @@ const Navigation = () => {
                   <div className="px-4 py-3">
                     <p className="text-sm leading-5">Signed in as</p>
                     <p className="text-sm font-medium leading-5 text-gray-900 truncate">
-                      tom@example.com
+                      {auth.dataProfile.email}
                     </p>
                   </div>
                   <div className="py-1">
@@ -145,11 +145,8 @@ const Navigation = () => {
                   </div>
                   <div className="py-1">
                     <button
-                      // to="/"
-                      // tabIndex="3"
                       className="hover:bg-blue-700 hover:text-white text-gray-700 flex justify-between w-full px-4 py-2 text-sm leading-5 text-left"
-                      // role="menuitem"
-                      onClick={() => logOut()}
+                      onClick={() => auth.signOut()}
                     >
                       Sign out
                     </button>
@@ -238,6 +235,15 @@ const Navigation = () => {
                 </Link>
               );
             })}
+
+            {auth.token && (
+              <button
+                onClick={() => auth.signOut()}
+                className="text-white hover:bg-blue-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+              >
+                Sign out
+              </button>
+            )}
           </div>
         </div>
       )}

@@ -9,7 +9,7 @@ import Layout from "../components/layout";
 import Alert from "../components/Utils/alert";
 import Spinner from "../components/Utils/spinner";
 
-// auth
+// validate auth
 import { hasError } from "../utilities/validateInput";
 import { validateEmail } from "../utilities/regExp";
 
@@ -17,14 +17,12 @@ import { validateEmail } from "../utilities/regExp";
 import { notify } from "../utilities/toast";
 import Circle from "../components/Utils/circle";
 
-//
-import { useLocation } from "react-router-dom";
-
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState({});
 
+  // provider
   const {
     login,
     alert,
@@ -36,8 +34,8 @@ const Login = () => {
     setToken,
   } = useContext(DataContext);
 
+  // router
   const history = useHistory();
-  const location = useLocation();
 
   const action = {
     type: "login",
@@ -93,11 +91,7 @@ const Login = () => {
 
         setToken(token);
 
-        let { from } = location.state || { from: { pathname: "/" } };
-
-        console.log(from);
-
-        return history.replace(from);
+        return history.push("/home");
       }
     } catch (error) {
       setLoading(false);

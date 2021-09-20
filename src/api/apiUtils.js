@@ -15,9 +15,9 @@ export const deleteTask = async (
       delete tasks[id];
 
       setTasks({ ...tasks });
-      notify("info", "task eliminada");
-    } else notify("error", "error al eliminar la tarea");
+      notify("success", "task eliminada");
+    }
   } catch (error) {
-    throw new Error(error);
+    notify("error", error.message);
   }
 };

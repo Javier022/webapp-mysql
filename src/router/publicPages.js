@@ -6,7 +6,6 @@ import LoginPage from "../pages/login";
 import SignUpPage from "../pages/signUp";
 
 const PublicPages = () => {
-  console.log("ejecuto public pages");
   return (
     <Router>
       <Switch>

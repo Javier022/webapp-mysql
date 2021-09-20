@@ -2,30 +2,28 @@ import React, { useContext, useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { DataContext } from "../context/dataContext";
 
-// import
+// componets
 import Layout from "../components/layout";
 import Form from "../components/form";
 import Input from "../components/Utils/input";
 import Button from "../components/Utils/button";
+import Spinner from "../components/Utils/spinner";
 
 // utils
 import { validateInput } from "../utilities/validateInput";
-import { useAuth } from "../utilities/useAuth";
 import { notify } from "../utilities/toast";
-import Spinner from "../components/Utils/spinner";
 
 const UpdateTask = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [error, setError] = useState({});
 
-  const { updateTask, loading, setLoading, tasks } = useContext(DataContext);
+  const { token, updateTask, loading, setLoading, tasks } =
+    useContext(DataContext);
 
-  const { id } = useParams();
+  // router
   const history = useHistory();
-
-  // auth
-  const token = useAuth();
+  const { id } = useParams();
 
   const action = {
     type: "update",
@@ -50,18 +48,15 @@ const UpdateTask = () => {
     try {
       setLoading(true);
       const request = await updateTask(id, task, token);
-      console.log(request);
+
       if (request.success === true) {
         setLoading(false);
         notify("success", action.message);
         return history.push("/home");
-      } else {
-        setLoading(false);
-        notify("success", "ha ocurrido un error");
       }
     } catch (error) {
       setLoading(false);
-      throw new Error(error);
+      notify("error", error.message);
     }
   };
 

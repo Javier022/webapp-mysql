@@ -2,6 +2,7 @@ import React, { createContext, useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { api } from "../constants/api";
+import jwt_decode from "jwt-decode";
 
 export const DataContext = createContext();
 
@@ -10,6 +11,8 @@ export const DataProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [fields, setFields] = useState(null);
   const [alert, setAlert] = useState(false);
+  const [dataProfile, setDataProfile] = useState({});
+
   const [token, setToken] = useState(() =>
     window.localStorage.getItem("token")
   );
@@ -24,12 +27,11 @@ export const DataProvider = ({ children }) => {
           "auth-token": token,
         },
       });
-      const { success, tasks } = await request.data;
 
-      if (success) {
-        if (Array.isArray(tasks) && tasks.length !== 0) {
-          return tasks;
-        }
+      if (request.status === 200 && request.data.success) {
+        const data = request.data.tasks;
+
+        return data;
       }
     } catch (error) {
       throw new Error(error);
@@ -55,9 +57,8 @@ export const DataProvider = ({ children }) => {
   };
 
   const createNewTask = async (body, token) => {
-    console.log(token, "token!!");
     if (!body) {
-      return console.log("send body");
+      throw new Error("send body");
     }
 
     try {
@@ -128,19 +129,11 @@ export const DataProvider = ({ children }) => {
     }
   };
 
-  const signOut = (cb) => {
+  const signOut = () => {
     window.localStorage.removeItem("token");
-
-    setToken(null);
-
-    return cb();
+    setDataProfile({});
+    return setToken(null);
   };
-
-  // const readToken = () => {
-  //   const token = window.localStorage.getItem("token");
-
-  //   return token ? token : null;
-  // };
 
   const register = async (body) => {
     if (!body) {
@@ -166,6 +159,33 @@ export const DataProvider = ({ children }) => {
     return show ? setFields({ email, password }) : setFields(null);
   };
 
+  const decodedToken = (token) => {
+    const decoded = jwt_decode(token);
+    return decoded;
+  };
+
+  const getProfile = async () => {
+    let config = {
+      headers: {
+        "Type-content": "application/json",
+      },
+    };
+
+    const { id: userId } = decodedToken(token);
+
+    try {
+      const request = await axios.get(`${api}/profile/${userId}`, config);
+
+      if (request.status === 200 && request.data.success) {
+        const data = request.data.data;
+
+        return setDataProfile(data);
+      }
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
   const store = {
     loading,
     setLoading,
@@ -187,6 +207,10 @@ export const DataProvider = ({ children }) => {
     register,
     login,
     signOut,
+
+    // user
+    getProfile,
+    dataProfile,
 
     useHistory,
     fillFieldsLogin,

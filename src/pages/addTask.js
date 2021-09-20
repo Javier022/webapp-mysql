@@ -11,21 +11,19 @@ import { notify } from "../utilities/toast";
 
 // utils
 import { validateInput } from "../utilities/validateInput";
-import { useAuth } from "../utilities/useAuth";
 
 const AddTask = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [error, setError] = useState({});
 
-  const { createNewTask, loading, setLoading, useHistory } =
+  const { token, createNewTask, loading, setLoading, useHistory } =
     useContext(DataContext);
 
+  //router
   const history = useHistory();
 
-  // auth
-  const token = useAuth();
-
+  // action
   const action = {
     type: "create",
     name: "add Task",
@@ -49,7 +47,7 @@ const AddTask = () => {
     try {
       setLoading(true);
       const request = await createNewTask(task, token);
-      console.log(request);
+
       if (request.success === true) {
         setLoading(false);
         notify("success", action.message);
@@ -60,7 +58,7 @@ const AddTask = () => {
       }
     } catch (error) {
       setLoading(false);
-      throw new Error(error);
+      notify("error", error.message);
     }
   };
 
