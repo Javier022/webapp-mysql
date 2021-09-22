@@ -12,6 +12,10 @@ npm install
 npm run start
 ```
 
+### unit test Jest
+```bash
+npm run test
+```
 
 ### Build the app for production
 ```bash
