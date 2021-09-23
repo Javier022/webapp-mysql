@@ -13,21 +13,13 @@ import { notify } from "../utilities/toast";
 // import { Link } from "react-router-dom";
 
 const TasksPage = () => {
-  //provider
-  const {
-    token,
-    getData,
-    tasks,
-    setTasks,
-    deleteTaskById,
-    loading,
-    setLoading,
-  } = useContext(DataContext);
+  const { getData, tasks, setTasks, deleteTaskById, loading, setLoading } =
+    useContext(DataContext);
 
   const [error, setError] = useState(false);
 
   const executeDeleteTask = (e) => {
-    return deleteTask(e, tasks, setTasks, deleteTaskById, token, notify);
+    return deleteTask(e, tasks, setTasks, deleteTaskById, notify);
   };
 
   const parseData = useCallback(
@@ -48,7 +40,7 @@ const TasksPage = () => {
   const getTasks = useCallback(async () => {
     try {
       setLoading(true);
-      const data = await getData(token);
+      const data = await getData();
 
       if (data && data.length !== 0) {
         parseData(data);
@@ -62,7 +54,7 @@ const TasksPage = () => {
       setError(true);
       notify("error", error.message);
     }
-  }, [getData, parseData, token, setLoading, setTasks]);
+  }, [getData, parseData, setLoading, setTasks]);
 
   useEffect(() => {
     getTasks();

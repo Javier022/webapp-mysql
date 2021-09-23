@@ -57,7 +57,7 @@ const Navigation = () => {
 
   const auth = useAuth();
 
-  console.log(auth.dataProfile);
+  // console.log(auth.dataProfile);
 
   let mainMenu = auth.token ? protectedItems : publicItems;
 

@@ -13,20 +13,22 @@ export const DataProvider = ({ children }) => {
   const [alert, setAlert] = useState(false);
   const [dataProfile, setDataProfile] = useState({});
 
+  // auth token
   const [token, setToken] = useState(() =>
     window.localStorage.getItem("token")
   );
 
-  const getData = async (token) => {
+  // request headers
+  let config = {
+    headers: {
+      "Type-content": "aplication/json",
+      "auth-token": token,
+    },
+  };
+
+  const getData = async () => {
     try {
-      const request = await axios({
-        method: "GET",
-        url: `${api}/tasks`,
-        headers: {
-          "Type-Content": "aplication/json",
-          "auth-token": token,
-        },
-      });
+      const request = await axios.get(`${api}/tasks`, config);
 
       if (request.status === 200 && request.data.success) {
         const data = request.data.tasks;
@@ -38,16 +40,9 @@ export const DataProvider = ({ children }) => {
     }
   };
 
-  const deleteTaskById = async (id, token) => {
+  const deleteTaskById = async (id) => {
     try {
-      const req = await axios({
-        method: "DELETE",
-        url: `${api}/tasks/${id}`,
-        headers: {
-          "auth-token": token,
-        },
-      });
-
+      const req = await axios.delete(`${api}/tasks/${id}`, config);
       const res = await req.data;
 
       if (res.success) return res;
@@ -56,21 +51,13 @@ export const DataProvider = ({ children }) => {
     }
   };
 
-  const createNewTask = async (body, token) => {
-    if (!body) {
-      throw new Error("send body");
+  const createNewTask = async (data) => {
+    if (!data) {
+      throw new Error("body is required");
     }
 
     try {
-      const request = await axios({
-        method: "POST",
-        url: `${api}/tasks`,
-        headers: {
-          "Content-Type": "application/json",
-          "auth-token": token,
-        },
-        data: body,
-      });
+      const request = await axios.post(`${api}/tasks`, data, config);
       const response = await request.data;
 
       if (response.success) {
@@ -81,21 +68,13 @@ export const DataProvider = ({ children }) => {
     }
   };
 
-  const updateTask = async (id, body, token) => {
-    if (!body) {
-      return console.log("send body");
+  const updateTask = async (id, data) => {
+    if (!data) {
+      throw new Error("body is required");
     }
 
     try {
-      const request = await axios({
-        method: "PUT",
-        url: `${api}/tasks/${id}`,
-        headers: {
-          "Content-Type": "application/json",
-          "auth-token": token,
-        },
-        data: body,
-      });
+      const request = await axios.put(`${api}/tasks/${id}`, data, config);
       const response = await request.data;
 
       if (response.success) {
@@ -106,21 +85,13 @@ export const DataProvider = ({ children }) => {
     }
   };
 
-  const login = async (body) => {
-    if (!body) {
+  const login = async (data) => {
+    if (!data) {
       throw new Error("request body required");
     }
 
     try {
-      const request = await axios({
-        method: "POST",
-        url: `${api}/login`,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: body,
-      });
-
+      const request = await axios.post(`${api}/login`, data);
       const response = await request;
 
       return response;
@@ -135,20 +106,13 @@ export const DataProvider = ({ children }) => {
     return setToken(null);
   };
 
-  const register = async (body) => {
-    if (!body) {
+  const register = async (data) => {
+    if (!data) {
       throw new Error("body is required");
     }
 
-    let config = {
-      headers: {
-        "Type-content": "aplication/json",
-      },
-    };
-
     try {
-      const request = await axios.post(`${api}/register`, body, config);
-
+      const request = await axios.post(`${api}/register`, data);
       return request;
     } catch (error) {
       throw new Error(error);
@@ -165,16 +129,10 @@ export const DataProvider = ({ children }) => {
   };
 
   const getProfile = async () => {
-    let config = {
-      headers: {
-        "Type-content": "application/json",
-      },
-    };
-
     const { id: userId } = decodedToken(token);
 
     try {
-      const request = await axios.get(`${api}/profile/${userId}`, config);
+      const request = await axios.get(`${api}/profile/${userId}`);
 
       if (request.status === 200 && request.data.success) {
         const data = request.data.data;

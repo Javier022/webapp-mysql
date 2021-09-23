@@ -18,8 +18,7 @@ const UpdateTask = () => {
   const [description, setDescription] = useState("");
   const [error, setError] = useState({});
 
-  const { token, updateTask, loading, setLoading, tasks } =
-    useContext(DataContext);
+  const { updateTask, loading, setLoading, tasks } = useContext(DataContext);
 
   // router
   const history = useHistory();
@@ -47,7 +46,7 @@ const UpdateTask = () => {
 
     try {
       setLoading(true);
-      const request = await updateTask(id, task, token);
+      const request = await updateTask(id, task);
 
       if (request.success === true) {
         setLoading(false);

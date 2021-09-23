@@ -17,7 +17,7 @@ const AddTask = () => {
   const [description, setDescription] = useState("");
   const [error, setError] = useState({});
 
-  const { token, createNewTask, loading, setLoading, useHistory } =
+  const { createNewTask, loading, setLoading, useHistory } =
     useContext(DataContext);
 
   //router
@@ -46,7 +46,7 @@ const AddTask = () => {
 
     try {
       setLoading(true);
-      const request = await createNewTask(task, token);
+      const request = await createNewTask(task);
 
       if (request.success === true) {
         setLoading(false);

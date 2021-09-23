@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { DataContext } from "../context/dataContext";
 
 // components
@@ -9,7 +9,7 @@ import { capitalizeText } from "../utilities/regExp";
 
 const Profile = () => {
   const { dataProfile } = useContext(DataContext);
-  const { error, setError } = useState(true);
+
   // validar que la data Profile, para que no de error
 
   // para empezar si al obtener la data de la navegacion me da un error entonces
@@ -17,8 +17,7 @@ const Profile = () => {
   // de error interno status 500
 
   if (Object.values(dataProfile).length === 0) {
-    console.log("error");
-    return setError(true);
+    return <p>Profile not found</p>;
   }
 
   const { username, email } = dataProfile;
