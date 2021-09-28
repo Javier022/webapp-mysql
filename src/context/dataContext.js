@@ -9,16 +9,18 @@ export const DataContext = createContext();
 export const DataProvider = ({ children }) => {
   const [tasks, setTasks] = useState({});
   const [loading, setLoading] = useState(false);
+  const [load, setLoad] = useState(false);
   const [fields, setFields] = useState(null);
   const [alert, setAlert] = useState(false);
   const [dataProfile, setDataProfile] = useState({});
+  const [serverError, setServerError] = useState(false);
 
   // auth token
   const [token, setToken] = useState(() =>
     window.localStorage.getItem("token")
   );
 
-  // request headers
+  // headers requests
   let config = {
     headers: {
       "Type-content": "aplication/json",
@@ -137,7 +139,7 @@ export const DataProvider = ({ children }) => {
       if (request.status === 200 && request.data.success) {
         const data = request.data.data;
 
-        return setDataProfile(data);
+        return data;
       }
     } catch (error) {
       throw new Error(error);
@@ -145,8 +147,21 @@ export const DataProvider = ({ children }) => {
   };
 
   const store = {
+    // loadings
     loading,
     setLoading,
+    load,
+    setLoad,
+
+    //auth
+    token,
+    setToken,
+    register,
+    login,
+    fillFieldsLogin,
+    fields,
+    signOut,
+
     // tasks
     getData,
     tasks,
@@ -154,25 +169,20 @@ export const DataProvider = ({ children }) => {
     deleteTaskById,
     createNewTask,
     updateTask,
-    // alert
-    alert,
-    setAlert,
-
-    //auth
-    // readToken,
-    token,
-    setToken,
-    register,
-    login,
-    signOut,
 
     // user
     getProfile,
     dataProfile,
+    setDataProfile,
 
+    // errors
+    alert,
+    setAlert,
+    serverError,
+    setServerError,
+
+    // router
     useHistory,
-    fillFieldsLogin,
-    fields,
   };
 
   return <DataContext.Provider value={store}>{children}</DataContext.Provider>;

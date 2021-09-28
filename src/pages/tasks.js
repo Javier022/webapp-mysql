@@ -6,7 +6,10 @@ import { deleteTask } from "../api/apiUtils";
 import Task from "../components/task";
 import Layout from "../components/layout";
 // import Button from "../components/Utils/button";
+import Screen from "../components/Utils/screen";
 import Spinner from "../components/Utils/spinner";
+
+// utils
 import { notify } from "../utilities/toast";
 
 // router
@@ -86,7 +89,7 @@ const TasksPage = () => {
           <Button name="add task" />
         </Link> */}
       </div>
-      {loading ? <Spinner /> : handleError(error)}
+      {loading ? <Screen children={<Spinner />} /> : handleError(error)}
     </Layout>
   );
 };

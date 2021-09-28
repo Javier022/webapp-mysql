@@ -7,9 +7,11 @@ import Layout from "../components/layout";
 import Form from "../components/form";
 import Input from "../components/Utils/input";
 import Button from "../components/Utils/button";
+import Screen from "../components/Utils/screen";
 import Spinner from "../components/Utils/spinner";
 
 // utils
+import { objectHasValues } from "../utilities/objectHasValues";
 import { validateInput } from "../utilities/validateInput";
 import { notify } from "../utilities/toast";
 
@@ -35,7 +37,7 @@ const UpdateTask = () => {
 
     const errors = validateInput(title, description, action.type);
 
-    if (Object.values(errors).length !== 0) {
+    if (objectHasValues(errors)) {
       return setError(errors);
     }
 
@@ -99,7 +101,7 @@ const UpdateTask = () => {
           <Button name={action.name} />
         </div>
       </Form>
-      {loading && <Spinner />}
+      {loading && <Screen children={<Spinner />} />}
     </Layout>
   );
 };

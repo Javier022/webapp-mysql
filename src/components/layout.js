@@ -1,4 +1,6 @@
 import React from "react";
+// import { DataContext } from "../context/dataContext";
+
 // components
 import Navigation from "./navigation/nav";
 

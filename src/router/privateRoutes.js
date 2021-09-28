@@ -1,41 +1,49 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { Route, Redirect } from "react-router-dom";
 
-// util
-import { useAuth } from "../utilities/useAuth";
+import { DataContext } from "../context/dataContext";
+
+// utils
+import { objectHasValues } from "../utilities/objectHasValues";
 
 const PrivateRoutes = ({ children, ...rest }) => {
-  const auth = useAuth();
+  const { token, setLoad, getProfile, setDataProfile, setServerError } =
+    useContext(DataContext);
 
-  const getDataProfile = async () => {
+  const getDataProfile = async (request = 1) => {
     try {
-      await auth.getProfile();
+      setLoad(true);
 
-      // aqui si esto falla entonces no cargar la home si no renderizar un componente
-      // de error del servidor y hacer una peticion recursiva que se vuelva a ejecutar despues de
-      // 5 segundos
+      const profile = await getProfile();
 
-      // y tambien antes de mostrar la barra de navegacion mostrar el spinner
-      // porque si no se muestra la navigation y la data todavia no se muestra
+      if (objectHasValues(profile)) {
+        setDataProfile(profile);
+        setLoad(false);
+      }
     } catch (error) {
-      console.log("ocurred an error to get data", error);
+      //
+      if (request > 3) {
+        setLoad(false);
+        return setServerError(true);
+      }
+
+      return getDataProfile(request + 1);
     }
   };
 
   useEffect(() => {
-    if (auth.token) {
-      console.log("profile");
+    console.log("use Effect");
+
+    if (token) {
       getDataProfile();
     }
-
-    console.log("se ejecuto");
-  }, []);
+  }, [token]);
 
   return (
     <Route
       {...rest}
       render={({ location }) =>
-        auth.token ? (
+        token ? (
           children
         ) : (
           <Redirect to={{ pathname: "/login", state: { from: location } }} />

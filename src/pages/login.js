@@ -7,7 +7,10 @@ import Input from "../components/Utils/input";
 import Button from "../components/Utils/button";
 import Layout from "../components/layout";
 import Alert from "../components/Utils/alert";
+import Circle from "../components/Utils/circle";
+import Screen from "../components/Utils/screen";
 import Spinner from "../components/Utils/spinner";
+import Title from "../components/Utils/title";
 
 // validate auth
 import { hasError } from "../utilities/validateInput";
@@ -15,7 +18,6 @@ import { validateEmail } from "../utilities/regExp";
 
 // utils
 import { notify } from "../utilities/toast";
-import Circle from "../components/Utils/circle";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -114,7 +116,7 @@ const Login = () => {
   return (
     <Layout center={true} showNavigation={false}>
       <Circle />
-      <p className="text-center w-full text-2xl mb-4">Sign in to App</p>
+      <Title text="Sign in to App" />
 
       <div className="w-full max-w-xs">
         {alert && (
@@ -150,7 +152,7 @@ const Login = () => {
           <Button name={action.name} />
         </div>
       </Form>
-      {loading && <Spinner />}
+      {loading && <Screen children={<Spinner />} />}
     </Layout>
   );
 };
