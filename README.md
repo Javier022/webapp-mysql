@@ -12,7 +12,7 @@ npm install
 npm run start
 ```
 
-### unit test Jest
+### unit testing Jest
 ```bash
 npm run test
 ```
