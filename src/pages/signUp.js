@@ -6,14 +6,15 @@ import Form from "../components/form";
 import Input from "../components/Utils/input";
 import Button from "../components/Utils/button";
 import Layout from "../components/layout";
-import Spinner from "../components/Utils/spinner/index";
 import Alert from "../components/Utils/alert";
+import Circle from "../components/Utils/circle";
+import Screen from "../components/Utils/screen";
+import Spinner from "../components/Utils/spinner/index";
 
 // utils
 import { hasError } from "../utilities/validateInput";
 import { validateEmail } from "../utilities/regExp";
 import { notify } from "../utilities/toast";
-import Circle from "../components/Utils/circle";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -64,6 +65,21 @@ const SignUp = () => {
       }
     }
 
+    const textWithoutSpaces = (text) => {
+      const res = /\s/;
+
+      return res.test(text);
+    };
+
+    if (!errors.username) {
+      const textHasSpaces = textWithoutSpaces(username);
+
+      if (textHasSpaces) {
+        errors.username =
+          "Los nombres de usuario solo pueden contener letras, números, guiones bajos y puntos.";
+      }
+    }
+
     if (errors.email || errors.password || errors.username) {
       return setErrors(errors);
     }
@@ -84,9 +100,12 @@ const SignUp = () => {
 
         const data = request.data;
 
-        if (data.success === false) {
+        if (data.message === "Email already registered") {
           setAlert(true);
           errors.email = "ingresa otro correo";
+          return setErrors(errors);
+        } else if (data.message === "username not available") {
+          errors.username = "nombre de usuario no disponible";
           return setErrors(errors);
         }
 
@@ -158,7 +177,7 @@ const SignUp = () => {
           <Button name="Sign up" />
         </div>
       </Form>
-      {loading && <Spinner />}
+      {loading && <Screen children={<Spinner />} />}
     </Layout>
   );
 };

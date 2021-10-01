@@ -131,15 +131,25 @@ export const DataProvider = ({ children }) => {
   };
 
   const getProfile = async () => {
-    const { id: userId } = decodedToken(token);
-
     try {
-      const request = await axios.get(`${api}/profile/${userId}`);
+      const request = await axios.get(`${api}/profile`, config);
 
       if (request.status === 200 && request.data.success) {
         const data = request.data.data;
 
         return data;
+      }
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
+  const editProfile = async (data) => {
+    try {
+      const req = await axios.put(`${api}/profile/edit`, data, config);
+
+      if (req.status === 200 && req.data.success) {
+        return req.data;
       }
     } catch (error) {
       throw new Error(error);
@@ -174,6 +184,7 @@ export const DataProvider = ({ children }) => {
     getProfile,
     dataProfile,
     setDataProfile,
+    editProfile,
 
     // errors
     alert,
