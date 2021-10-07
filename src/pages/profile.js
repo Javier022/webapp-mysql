@@ -25,8 +25,6 @@ const Profile = () => {
   const [edit, setEdit] = useState(false);
   const [resize, setResize] = useState(false);
 
-  console.log(fullname, place, about, "DataEditProfile");
-
   const handleChangeComponent = (changeState) => {
     setEdit(changeState);
     setResize(changeState);
@@ -41,45 +39,38 @@ const Profile = () => {
   const sendData = async (e) => {
     e.preventDefault();
 
-    let body = {};
+    const validate = (value) => {
+      if (value.trim()) {
+        return value;
+      }
 
-    // const inputValidate = (text, property, value) => {
-    //   let obj = {};
-    //   if (text.trim()) {
-    //     obj[property] = value;
-    //   }
+      return null;
+    };
 
-    //   return obj;
-    // };
+    let userFullName = validate(name);
+    let userLocation = validate(location);
+    let userBio = validate(bio);
 
-    // let any = inputValidate(name, "fullname", name);
-
-    // console.log(any, "ANY");
-
-    if (name.trim()) {
-      body.fullname = name;
-    }
-    if (location.trim()) {
-      body.location = location;
-    }
-    if (bio.trim()) {
-      body.bio = bio;
-    }
+    let body = {
+      fullname: userFullName,
+      location: userLocation,
+      bio: userBio,
+    };
 
     try {
       setLoading(true);
-      console.log(body);
+
       const request = await editProfile(body);
 
       if (request.success === true) {
         setLoading(false);
 
-        const response = request.data;
+        const data = request.data;
 
         let dataProfileUpdated = {
-          fullname: response?.fullname,
-          location: response?.location,
-          bio: response?.bio,
+          fullname: data.fullname,
+          location: data.location,
+          bio: data.bio,
         };
 
         // primero ago una copia del estado anterior
@@ -90,7 +81,7 @@ const Profile = () => {
         let noChangesInDataProfile =
           (dataProfileUpdated.fullname ||
             dataProfileUpdated.location ||
-            dataProfileUpdated.bio) === undefined;
+            dataProfileUpdated.bio) === null;
 
         if (noChangesInDataProfile) {
           clearInputs();
@@ -101,7 +92,7 @@ const Profile = () => {
         // agrgado en los input
 
         //porque lo que está pasando es que los inputs quedan con
-        // el value ingrado entonces eso es lo que semuestra, simpre necesitaria
+        // el value ingresado entonces eso es lo que semuestra, simpre necesitaria
         // limpiarlos por si quedan espacios en blanco y al monstarse el form volver
         // a setear los valor si existen!
 
@@ -131,7 +122,7 @@ const Profile = () => {
         className={`max-w-4xl flex items-center h-auto bg-scroll lg:h-screen flex-wrap mx-auto my-16 md:my-14 
         ${resize ? "lg:my-14" : "lg:my-0"}`}
       >
-        <div className="w-full rounded-xl border border-t-0 shadow mx-6 lg:mx-0">
+        <div className="w-full rounded-lg border border-t-0 shadow mx-6 lg:mx-0">
           <div className="p-4 md:p-12 text-center ">
             <div className="bg-white rounded-full border shadow-md mx-auto -mt-16 h-48 w-48  flex items-center justify-center">
               <h1 className="text-8xl text-transparent bg-clip-text bg-gradient-to-r from-blue-900 to-blue-700">
@@ -158,7 +149,7 @@ const Profile = () => {
                 <div className="pt-12 pb-8">
                   <button
                     onClick={() => handleChangeComponent(true)}
-                    className="bg-blue-900  text-white font-bold py-2 px-20 rounded"
+                    className="p-2 px-14 sm:py-2 sm:px-20  bg-blue-900  text-white font-bold  rounded"
                   >
                     Edit Profile
                   </button>

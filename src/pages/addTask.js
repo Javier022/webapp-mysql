@@ -8,6 +8,7 @@ import Layout from "../components/layout";
 import Form from "../components/form";
 import Screen from "../components/Utils/screen";
 import Spinner from "../components/Utils/spinner";
+import TitlePage from "../components/Utils/titlePage";
 
 // utils
 import { notify } from "../utilities/toast";
@@ -28,7 +29,7 @@ const AddTask = () => {
   // action
   const action = {
     type: "create",
-    name: "add Task",
+    name: "Save",
     message: "task creada",
   };
 
@@ -66,6 +67,8 @@ const AddTask = () => {
 
   return (
     <Layout>
+      <TitlePage text="Add a task" mt={8} />
+
       <Form handleSubmit={(e) => sendData(e)}>
         <div className="mb-4">
           <Input

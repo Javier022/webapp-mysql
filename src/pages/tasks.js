@@ -5,15 +5,16 @@ import { deleteTask } from "../api/apiUtils";
 // components
 import Task from "../components/task";
 import Layout from "../components/layout";
-// import Button from "../components/Utils/button";
+import Button from "../components/Utils/button";
 import Screen from "../components/Utils/screen";
 import Spinner from "../components/Utils/spinner";
+import TitlePage from "../components/Utils/titlePage";
 
 // utils
 import { notify } from "../utilities/toast";
 
 // router
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const TasksPage = () => {
   const { getData, tasks, setTasks, deleteTaskById, loading, setLoading } =
@@ -82,13 +83,13 @@ const TasksPage = () => {
   return (
     <Layout>
       <div className="m-8 w-full flex items-center justify-around">
-        <h1 className="text-blue-900 font-bold text-3xl text-center flex-auto">
-          your tasks ...
-        </h1>
-        {/* <Link to="/create">
+        <TitlePage text="Your tasks" />
+
+        <Link className="hidden" to="/create">
           <Button name="add task" />
-        </Link> */}
+        </Link>
       </div>
+
       {loading ? <Screen children={<Spinner />} /> : handleError(error)}
     </Layout>
   );

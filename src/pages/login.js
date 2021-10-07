@@ -107,7 +107,7 @@ const Login = () => {
     }, 5000);
 
   useEffect(() => {
-    console.log(fields, "fields");
+    console.log("useEffect login");
     if (fields) {
       setEmail(fields.email);
       setPassword(fields.password);

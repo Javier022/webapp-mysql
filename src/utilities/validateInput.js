@@ -31,6 +31,5 @@ export const hasError = (
   ) {
     error.field = message2;
   }
-
   return error;
 };

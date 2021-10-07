@@ -23,7 +23,7 @@ const protectedItems = [
     href: "/home",
   },
   {
-    caption: "add Task",
+    caption: "Add Task",
     href: "/create",
   },
 ];
@@ -48,7 +48,7 @@ const mobileMenuPublicItems = [
     href: "/login",
   },
   {
-    caption: "sign up",
+    caption: "Sign up",
     href: "/signup",
   },
 ];
@@ -172,13 +172,13 @@ const Navigation = () => {
                 <div className="hidden md:flex items-center space-x-3 ">
                   <Link
                     to="/login"
-                    className="py-2 px-2 font-medium text-white rounded hover:bg-blue-700 hover:text-white transition duration-300"
+                    className="py-2 px-4 font-medium text-white rounded border  transition duration-300"
                   >
-                    Log In
+                    Sign In
                   </Link>
                   <Link
                     to="/signup"
-                    className="py-2 px-2 font-medium text-white bg-blue-700 rounded hover:bg-transparent transition duration-300"
+                    className="py-2 px-4 font-medium text-white bg-blue-700 rounded  transition duration-300"
                   >
                     Sign Up
                   </Link>

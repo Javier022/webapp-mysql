@@ -13,7 +13,7 @@ import Spinner from "../components/Utils/spinner/index";
 
 // utils
 import { hasError } from "../utilities/validateInput";
-import { validateEmail } from "../utilities/regExp";
+import { validateEmail, textHasBlanks } from "../utilities/regExp";
 import { notify } from "../utilities/toast";
 
 const SignUp = () => {
@@ -65,14 +65,8 @@ const SignUp = () => {
       }
     }
 
-    const textWithoutSpaces = (text) => {
-      const res = /\s/;
-
-      return res.test(text);
-    };
-
     if (!errors.username) {
-      const textHasSpaces = textWithoutSpaces(username);
+      const textHasSpaces = textHasBlanks(username);
 
       if (textHasSpaces) {
         errors.username =

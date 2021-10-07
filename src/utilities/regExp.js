@@ -13,12 +13,8 @@ export const capitalizeText = (text) => {
   return finalSentence;
 };
 
-const textWithoutSpaces = (text) => {
-  // (/\s/)
-
+export const textHasBlanks = (text) => {
   const res = /\s/;
-
-  // text.replace(/^\s+|\s+$/g, "")
 
   return res.test(text);
 };

@@ -9,6 +9,7 @@ import Input from "../components/Utils/input";
 import Button from "../components/Utils/button";
 import Screen from "../components/Utils/screen";
 import Spinner from "../components/Utils/spinner";
+import TitlePage from "../components/Utils/titlePage";
 
 // utils
 import { objectHasValues } from "../utilities/objectHasValues";
@@ -28,7 +29,7 @@ const UpdateTask = () => {
 
   const action = {
     type: "update",
-    name: "update Task",
+    name: "Save",
     message: "task actualizada",
   };
 
@@ -62,7 +63,7 @@ const UpdateTask = () => {
   };
 
   useEffect(() => {
-    if (Object.values(tasks).length !== 0) {
+    if (objectHasValues(tasks)) {
       const task = tasks[id];
       setTitle(task.title);
       setDescription(task.description);
@@ -77,6 +78,7 @@ const UpdateTask = () => {
 
   return (
     <Layout>
+      <TitlePage text="Update task" mt={8} />
       <Form handleSubmit={(e) => sendData(e)}>
         <div className="mb-4">
           <Input
