@@ -39,18 +39,17 @@ instance.interceptors.response.use(
 
         try {
           const refreshToken = window.localStorage.getItem("refresh");
-          const response = await instance({
+          const request = await instance({
             method: "POST",
-            url: `${api}/refresh-token`,
+            url: "/refresh-token",
             headers: {
               refresh: refreshToken,
             },
           });
 
-          if (response.status === 200) {
-            const newAccessToken = response.data.token;
+          if (request.status === 200) {
+            const newAccessToken = request.data.token;
             window.localStorage.setItem("token", newAccessToken);
-
             return instance(originalConfig);
           }
         } catch (_error) {
@@ -58,10 +57,10 @@ instance.interceptors.response.use(
           window.location.href = "/login";
           return Promise.reject(_error);
         }
-      }
-
-      return Promise.reject(error);
+      } // aqui manejar otros status !== 401
     }
+
+    return Promise.reject(error);
   }
 );
 

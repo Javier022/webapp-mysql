@@ -82,7 +82,6 @@ export const DataProvider = ({ children }) => {
     try {
       const request = await api.post("/login", data);
       const response = await request;
-
       return response;
     } catch (error) {
       throw new Error(error);
