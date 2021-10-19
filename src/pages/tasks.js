@@ -12,13 +12,19 @@ import TitlePage from "../components/Utils/titlePage";
 
 // utils
 import { notify } from "../utilities/toast";
-
 // router
 import { Link } from "react-router-dom";
 
 const TasksPage = () => {
-  const { getData, tasks, setTasks, deleteTaskById, loading, setLoading } =
-    useContext(DataContext);
+  const {
+    getData,
+    tasks,
+    setTasks,
+    deleteTaskById,
+    loading,
+    setLoading,
+    token,
+  } = useContext(DataContext);
 
   const [error, setError] = useState(false);
 
@@ -45,8 +51,7 @@ const TasksPage = () => {
     try {
       setLoading(true);
       const data = await getData();
-
-      if (data && data.length !== 0) {
+      if (Array.isArray(data) && data.length !== 0) {
         parseData(data);
         setLoading(false);
       } else {
@@ -56,13 +61,16 @@ const TasksPage = () => {
     } catch (error) {
       setLoading(false);
       setError(true);
-      notify("error", error.message);
+      return notify("error", error.message);
     }
   }, [getData, parseData, setLoading, setTasks]);
 
   useEffect(() => {
-    getTasks();
-  }, []);
+    console.log("useEffect de tasks");
+    if (token) {
+      getTasks();
+    }
+  }, [token]);
 
   const handleError = (error) => {
     if (error) return <p>Error not foud</p>;

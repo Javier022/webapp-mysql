@@ -1,29 +1,33 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
+import { DataContext } from "../context/dataContext";
+
 import { Route, Redirect } from "react-router-dom";
 
-import { DataContext } from "../context/dataContext";
+// components
+import FullScreen from "../components/Utils/fullScreen";
+import Spinner from "../components/Utils/spinner";
+import Title from "../components/Utils/title";
 
 // utils
 import { objectHasValues } from "../utilities/objectHasValues";
 
 const PrivateRoutes = ({ children, ...rest }) => {
-  const { token, setLoad, getProfile, setDataProfile, setServerError } =
-    useContext(DataContext);
+  const { token, getProfile, setDataProfile } = useContext(DataContext);
+
+  const [serverError, setServerError] = useState(false);
+  const [render, setRender] = useState(false);
+
+  // return JSON.parse(atob(token.split(".")[1]));
 
   const getDataProfile = async (request = 1) => {
     try {
-      setLoad(true);
-
       const profile = await getProfile();
-
       if (objectHasValues(profile)) {
         setDataProfile(profile);
-        setLoad(false);
+        return setRender(true);
       }
     } catch (error) {
-      //
       if (request > 3) {
-        setLoad(false);
         return setServerError(true);
       }
 
@@ -31,9 +35,33 @@ const PrivateRoutes = ({ children, ...rest }) => {
     }
   };
 
-  useEffect(() => {
-    console.log("use Effect");
+  const renderScreen = () => {
+    if (serverError) {
+      return (
+        <FullScreen>
+          <Title text="500 Internal Server Error" />
+          <p onClick={() => getDataProfile()} className="mt-2 text-blue-700">
+            reload page
+          </p>
+        </FullScreen>
+      );
+    }
 
+    return render ? (
+      children
+    ) : (
+      // loading...
+      <FullScreen>
+        <Spinner />
+        <h2 className="text-blue-900 text-center text-xl font-semibold">
+          Todo App
+        </h2>
+      </FullScreen>
+    );
+  };
+
+  useEffect(() => {
+    console.log("useEffect routes Prote");
     if (token) {
       getDataProfile();
     }
@@ -44,7 +72,7 @@ const PrivateRoutes = ({ children, ...rest }) => {
       {...rest}
       render={({ location }) =>
         token ? (
-          children
+          renderScreen()
         ) : (
           <Redirect to={{ pathname: "/login", state: { from: location } }} />
         )

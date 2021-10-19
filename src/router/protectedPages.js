@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import TasksPage from "../pages/tasks";
 import AddTaskPage from "../pages/addTask";
 import UpdateTask from "../pages/updateTask";
-import Profile from "../pages/profile";
+import Profile from "../pages/profile/index";
 
 const ProtectedPages = () => {
   return (

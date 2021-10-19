@@ -1,8 +1,6 @@
 import React, { createContext, useState } from "react";
-import axios from "axios";
 import { useHistory } from "react-router-dom";
-import { api } from "../constants/api";
-import jwt_decode from "jwt-decode";
+import api from "../services/api";
 
 export const DataContext = createContext();
 
@@ -13,29 +11,18 @@ export const DataProvider = ({ children }) => {
   const [fields, setFields] = useState(null);
   const [alert, setAlert] = useState(false);
   const [dataProfile, setDataProfile] = useState({});
-  const [serverError, setServerError] = useState(false);
 
   // auth token
   const [token, setToken] = useState(() =>
     window.localStorage.getItem("token")
   );
 
-  // headers requests
-  let config = {
-    headers: {
-      "Type-content": "aplication/json",
-      "auth-token": token,
-    },
-  };
-
   const getData = async () => {
     try {
-      const request = await axios.get(`${api}/tasks`, config);
-
-      if (request.status === 200 && request.data.success) {
-        const data = request.data.tasks;
-
-        return data;
+      const request = await api.get("/tasks");
+      if (request.status === 200 && request.data.success === true) {
+        const tasks = request.data.tasks;
+        return tasks;
       }
     } catch (error) {
       throw new Error(error);
@@ -44,7 +31,7 @@ export const DataProvider = ({ children }) => {
 
   const deleteTaskById = async (id) => {
     try {
-      const req = await axios.delete(`${api}/tasks/${id}`, config);
+      const req = await api.delete(`/tasks/${id}`);
       const res = await req.data;
 
       if (res.success) return res;
@@ -59,7 +46,7 @@ export const DataProvider = ({ children }) => {
     }
 
     try {
-      const request = await axios.post(`${api}/tasks`, data, config);
+      const request = await api.post("/tasks", data);
       const response = await request.data;
 
       if (response.success) {
@@ -76,7 +63,7 @@ export const DataProvider = ({ children }) => {
     }
 
     try {
-      const request = await axios.put(`${api}/tasks/${id}`, data, config);
+      const request = await api.put(`/tasks/${id}`, data);
       const response = await request.data;
 
       if (response.success) {
@@ -93,7 +80,7 @@ export const DataProvider = ({ children }) => {
     }
 
     try {
-      const request = await axios.post(`${api}/login`, data);
+      const request = await api.post("/login", data);
       const response = await request;
 
       return response;
@@ -103,7 +90,7 @@ export const DataProvider = ({ children }) => {
   };
 
   const signOut = () => {
-    window.localStorage.removeItem("token");
+    window.localStorage.clear();
     setDataProfile({});
     return setToken(null);
   };
@@ -114,7 +101,7 @@ export const DataProvider = ({ children }) => {
     }
 
     try {
-      const request = await axios.post(`${api}/register`, data);
+      const request = await api.post("/register", data);
       return request;
     } catch (error) {
       throw new Error(error);
@@ -125,29 +112,21 @@ export const DataProvider = ({ children }) => {
     return show ? setFields({ email, password }) : setFields(null);
   };
 
-  const decodedToken = (token) => {
-    const decoded = jwt_decode(token);
-    return decoded;
-  };
-
   const getProfile = async () => {
     try {
-      const request = await axios.get(`${api}/profile`, config);
-
-      if (request.status === 200 && request.data.success) {
-        const data = request.data.data;
-
-        return data;
+      const request = await api.get("/profile");
+      if (request.status === 200 && request.data.success === true) {
+        const profile = request.data.data;
+        return profile;
       }
     } catch (error) {
-      throw new Error(error);
+      throw new Error(error.message);
     }
   };
 
   const editProfile = async (data) => {
     try {
-      const req = await axios.put(`${api}/profile/edit`, data, config);
-
+      const req = await api.put("/profile/edit", data);
       if (req.status === 200 && req.data.success) {
         return req.data;
       }
@@ -181,16 +160,14 @@ export const DataProvider = ({ children }) => {
     updateTask,
 
     // user
-    getProfile,
     dataProfile,
     setDataProfile,
     editProfile,
+    getProfile,
 
     // errors
     alert,
     setAlert,
-    serverError,
-    setServerError,
 
     // router
     useHistory,

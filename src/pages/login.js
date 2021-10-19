@@ -88,8 +88,11 @@ const Login = () => {
 
         if (response.success === false) return setAlert(true);
 
-        const token = response.data.token;
+        const token = response.token;
+        const refresh = response.refreshToken;
+
         window.localStorage.setItem("token", token);
+        window.localStorage.setItem("refresh", refresh);
 
         setToken(token);
 
