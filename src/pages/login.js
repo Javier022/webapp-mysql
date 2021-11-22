@@ -34,6 +34,7 @@ const Login = () => {
     fields,
     useHistory,
     setToken,
+    getRol,
   } = useContext(DataContext);
 
   // router
@@ -93,8 +94,12 @@ const Login = () => {
 
         window.localStorage.setItem("token", token);
         window.localStorage.setItem("refresh", refresh);
-
         setToken(token);
+
+        const userRol = getRol(token);
+        if (userRol === 1) {
+          return history.push("/dashboard");
+        }
 
         return history.push("/home");
       }

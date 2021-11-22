@@ -12,12 +12,10 @@ import Title from "../components/Utils/title";
 import { objectHasValues } from "../utilities/objectHasValues";
 
 const PrivateRoutes = ({ children, ...rest }) => {
-  const { token, getProfile, setDataProfile } = useContext(DataContext);
+  const { token, getProfile, setDataProfile, getRol } = useContext(DataContext);
 
   const [serverError, setServerError] = useState(false);
   const [render, setRender] = useState(false);
-
-  // return JSON.parse(atob(token.split(".")[1]));
 
   const getDataProfile = async (request = 1) => {
     try {
@@ -37,12 +35,28 @@ const PrivateRoutes = ({ children, ...rest }) => {
 
   const renderScreen = () => {
     if (serverError) {
+      let wait = false;
+
+      serverError &&
+        setTimeout(() => {
+          return (wait = true);
+        }, 3000);
+
+      console.log(wait);
+
       return (
         <FullScreen>
           <Title text="500 Internal Server Error" />
-          <p onClick={() => getDataProfile()} className="mt-2 text-blue-700">
-            reload page
-          </p>
+          {wait ? (
+            <button
+              onClick={() => window.location.reload()}
+              className="mt-2 text-blue-700"
+            >
+              reload page
+            </button>
+          ) : (
+            <p>loading....</p>
+          )}
         </FullScreen>
       );
     }
@@ -64,6 +78,7 @@ const PrivateRoutes = ({ children, ...rest }) => {
     console.log("useEffect routes Prote");
     if (token) {
       getDataProfile();
+      getRol(token);
     }
   }, [token]);
 

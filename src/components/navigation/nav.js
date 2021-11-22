@@ -12,6 +12,17 @@ const publicItems = [
   },
 ];
 
+const mobileMenuPublicItems = [
+  {
+    caption: "Sign in",
+    href: "/login",
+  },
+  {
+    caption: "Sign up",
+    href: "/signup",
+  },
+];
+
 const protectedItems = [
   {
     caption: "Home",
@@ -37,21 +48,11 @@ const mobileMenuPrivateItems = [
     href: "/Profile",
   },
 ];
-const mobileMenuPublicItems = [
-  {
-    caption: "Sign in",
-    href: "/login",
-  },
-  {
-    caption: "Sign up",
-    href: "/signup",
-  },
-];
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { token, dataProfile, signOut } = useContext(DataContext);
+  const { token, dataProfile, signOut, rol } = useContext(DataContext);
 
   let mainMenu = token ? protectedItems : publicItems;
   let secondMenu = token ? mobileMenuPrivateItems : mobileMenuPublicItems;
@@ -72,6 +73,14 @@ const Navigation = () => {
               </div>
               <div className="hidden md:block">
                 <div className="ml-10 flex items-baseline space-x-4">
+                  {rol === 1 && (
+                    <Link
+                      to="/dashboard"
+                      className="text-white hover:bg-blue-700 hover:text-white px-3 py-2 rounded-md  font-medium"
+                    >
+                      Dashboard
+                    </Link>
+                  )}
                   {mainMenu.map((item, index) => {
                     return (
                       <Link

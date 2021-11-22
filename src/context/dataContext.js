@@ -11,11 +11,20 @@ export const DataProvider = ({ children }) => {
   const [fields, setFields] = useState(null);
   const [alert, setAlert] = useState(false);
   const [dataProfile, setDataProfile] = useState({});
+  const [rol, setRol] = useState("");
 
   // auth token
   const [token, setToken] = useState(() =>
     window.localStorage.getItem("token")
   );
+
+  const getRol = (token) => {
+    // decode Token
+    const user = JSON.parse(atob(token.split(".")[1]));
+    // setRol
+    setRol(user.rol_id);
+    return user.rol_id;
+  };
 
   const getData = async () => {
     try {
@@ -149,6 +158,7 @@ export const DataProvider = ({ children }) => {
     fillFieldsLogin,
     fields,
     signOut,
+    getRol,
 
     // tasks
     getData,
@@ -170,6 +180,10 @@ export const DataProvider = ({ children }) => {
 
     // router
     useHistory,
+
+    // rol
+    rol,
+    setRol,
   };
 
   return <DataContext.Provider value={store}>{children}</DataContext.Provider>;

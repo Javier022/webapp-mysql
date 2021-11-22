@@ -24,6 +24,7 @@ const TasksPage = () => {
     loading,
     setLoading,
     token,
+    rol,
   } = useContext(DataContext);
 
   const [error, setError] = useState(false);
@@ -70,6 +71,8 @@ const TasksPage = () => {
     if (token) {
       getTasks();
     }
+
+    console.log(rol);
   }, [token]);
 
   const handleError = (error) => {
