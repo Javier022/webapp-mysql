@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 // pages
-import PublicPage from "../pages";
+import LandingPage from "../pages/landing/index";
 import LoginPage from "../pages/login";
 import SignUpPage from "../pages/signUp";
 import NotFound404 from "../pages/notFound404";
@@ -11,7 +11,7 @@ const PublicPages = () => {
     <Router>
       <Switch>
         <Route exact path="/">
-          <PublicPage />
+          <LandingPage />
         </Route>
 
         <Route path="/login">
