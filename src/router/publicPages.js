@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import LandingPage from "../pages/landing/index";
 import LoginPage from "../pages/login";
 import SignUpPage from "../pages/signUp";
+import ConfirmEmailPage from "../pages/confirmEmail";
 import NotFound404 from "../pages/notFound404";
 
 const PublicPages = () => {
@@ -20,6 +21,10 @@ const PublicPages = () => {
 
         <Route path="/signup">
           <SignUpPage />
+        </Route>
+
+        <Route path="/confirm/:id">
+          <ConfirmEmailPage />
         </Route>
 
         <Route path="*">

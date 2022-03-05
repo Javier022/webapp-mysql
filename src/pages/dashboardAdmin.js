@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import api from "../services/api";
 
+import api from "../services/api";
 // components
 import Screen from "../components/Utils/screen";
 import Spinner from "../components/Utils/spinner/index";
@@ -9,6 +9,7 @@ import UserCard from "../components/user";
 
 // utils
 import { notify } from "../utilities/toast";
+import { parseData } from "../utilities/parseData";
 
 const DashboardAdmin = () => {
   const [loading, setLoading] = useState(true);
@@ -17,37 +18,38 @@ const DashboardAdmin = () => {
   const deleteUser = async (e) => {
     const userId = e.target.dataset.id;
     try {
-      setLoading(true);
-      const request = await api.delete(`admin/delete-user/${userId}`);
-      if (request.status === 200 && request.data.success === true) {
-        setLoading(false);
+      // setSpinner(true);
 
-        console.log(request.data);
-        // const id = parseInt(userId);
-        // const newState = data.filter((user) => {
-        //   return user.id !== id;
-        // });
+      // const request = await api.delete(`/admin/delete-user/${userId}`);
+      // request.status === 200 && request.data.success === true
 
-        // setData(newState);
-        // return notify("success", "usuario desabilitado");
+      setTimeout(() => {
+        if (true) {
+          // setSpinner(false);
 
-        return;
-      }
+          const users = parseData(data);
+          delete users[userId];
+          const newState = Object.values(users);
+
+          setData(newState);
+          return notify("success", "usuario desabilitado");
+        }
+      }, 2000);
     } catch (error) {
-      setLoading(false);
+      // setSpinner(false);
       notify("error", error.message);
     }
   };
 
   const getDataAdmin = async (state = 1) => {
     try {
-      console.log("se ejecuto data admin");
       setLoading(true);
       const request = await api.get("/admin/users");
       if (request.status === 200 && request.data.success === true) {
         setLoading(false);
         const data = request.data.data;
-        return render(data, state);
+        const users = data.filter((user) => user.state === state);
+        return setData(users);
       }
     } catch (error) {
       setLoading(false);
@@ -55,18 +57,10 @@ const DashboardAdmin = () => {
     }
   };
 
-  const render = (data, userState = 1) => {
-    const users = data.filter((user) => user.state === userState);
-    return setData(users);
-  };
-
   useEffect(() => {
     console.log("useEffect dashboard");
-
     getDataAdmin();
   }, []);
-
-  // parcial
 
   return (
     <>
@@ -95,11 +89,11 @@ const DashboardAdmin = () => {
           </div>
           <div className="px-4 py-6 sm:px-0">
             {/* here end layout */}
-
-            {data.map((item, index) => {
-              return <UserCard key={index} {...item} fn={deleteUser} />;
+            {data.map((item) => {
+              return (
+                <UserCard key={item.id} {...item} fn={(e) => deleteUser(e)} />
+              );
             })}
-
             {/*  */}
           </div>
         </div>

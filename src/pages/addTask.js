@@ -1,6 +1,7 @@
-import React, { useState, useContext } from "react";
-import { DataContext } from "../context/dataContext";
+import React, { useState } from "react";
 
+import api from "../services/api";
+import { useHistory } from "react-router-dom";
 // componemts
 import Input from "../components/Utils/input";
 import Button from "../components/Utils/button";
@@ -19,9 +20,7 @@ const AddTask = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [error, setError] = useState({});
-
-  const { createNewTask, loading, setLoading, useHistory } =
-    useContext(DataContext);
+  const [loading, setLoading] = useState(false);
 
   //router
   const history = useHistory();
@@ -30,12 +29,11 @@ const AddTask = () => {
   const action = {
     type: "create",
     name: "Save",
-    message: "task creada",
+    message: "task created",
   };
 
   const sendData = async (e) => {
     e.preventDefault();
-
     const errors = validateInput(title, description, action.type);
 
     if (objectHasValues(errors)) {
@@ -49,15 +47,11 @@ const AddTask = () => {
 
     try {
       setLoading(true);
-      const request = await createNewTask(task);
-
-      if (request.success === true) {
+      const request = await api.post("/tasks", task);
+      if (request.status === 200 && request.data.success === true) {
         setLoading(false);
         notify("success", action.message);
         return history.push("/home");
-      } else {
-        setLoading(false);
-        notify("error", "ocurrio un error");
       }
     } catch (error) {
       setLoading(false);
@@ -72,7 +66,6 @@ const AddTask = () => {
       <Form handleSubmit={(e) => sendData(e)}>
         <div className="mb-4">
           <Input
-            label="título"
             placeHolder="title"
             value={title}
             handleChange={(e) => setTitle(e.target.value)}
@@ -82,7 +75,6 @@ const AddTask = () => {
         </div>
         <div className="mb-6">
           <Input
-            label="descripción"
             placeHolder="description"
             value={description}
             handleChange={(e) => setDescription(e.target.value)}

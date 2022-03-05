@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { DataContext } from "../../context/dataContext";
-
+import api from "../../services/api";
 // components
 import Form from "../../components/form";
 import Input from "../../components/Utils/input";
@@ -10,7 +10,7 @@ import Button from "../../components/Utils/button";
 import { notify } from "../../utilities/toast";
 
 const EditProfile = ({ setLoading, handleChangeComponent }) => {
-  const { editProfile, dataProfile, setDataProfile } = useContext(DataContext);
+  const { dataProfile, setDataProfile } = useContext(DataContext);
 
   const [fullname, setFullname] = useState("");
   const [location, setLocation] = useState("");
@@ -40,12 +40,11 @@ const EditProfile = ({ setLoading, handleChangeComponent }) => {
     try {
       setLoading(true);
 
-      const request = await editProfile(body);
+      const request = await api.put("/profile/edit", body);
 
-      if (request.success === true) {
+      if (request.status === 200 && request.data.success === true) {
         setLoading(false);
-
-        const data = request.data;
+        const data = request.data.data;
 
         let dataProfileUpdated = {
           fullname: data.fullname,

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, useCallback } from "react";
 import { DataContext } from "../context/dataContext";
-import { deleteTask } from "../api/apiUtils";
 
+import api from "../services/api";
 // components
 import Task from "../components/task";
 import Layout from "../components/layout";
@@ -12,96 +12,83 @@ import TitlePage from "../components/Utils/titlePage";
 
 // utils
 import { notify } from "../utilities/toast";
+import { parseData } from "../utilities/parseData";
 // router
 import { Link } from "react-router-dom";
 
 const TasksPage = () => {
-  const {
-    getData,
-    tasks,
-    setTasks,
-    deleteTaskById,
-    loading,
-    setLoading,
-    token,
-    rol,
-  } = useContext(DataContext);
+  const [loading, setLoading] = useState(false);
+  const { tasks, setTasks } = useContext(DataContext);
 
-  const [error, setError] = useState(false);
+  const deleteTask = async (e) => {
+    const id = e.target.dataset.id;
+    try {
+      const request = await api.delete(`/tasks/${id}`);
 
-  const executeDeleteTask = (e) => {
-    return deleteTask(e, tasks, setTasks, deleteTaskById, notify);
+      if (request.status === 200 && request.data.success) {
+        delete tasks[id];
+
+        setTasks({ ...tasks });
+        notify("success", "task deleted");
+      }
+    } catch (error) {
+      notify("error", error.message);
+    }
   };
 
-  const parseData = useCallback(
-    (array) => {
-      const newData = array.reduce(
-        (acc, el) => ({
-          ...acc,
-          [el.id]: el,
-        }),
-        {}
-      );
-
-      setTasks(newData);
-    },
-    [setTasks]
-  );
-
-  const getTasks = useCallback(async () => {
+  const getTasks = async () => {
     try {
       setLoading(true);
-      const data = await getData();
-      if (Array.isArray(data) && data.length !== 0) {
-        parseData(data);
-        setLoading(false);
-      } else {
+      const request = await api.get("/tasks");
+
+      if (request.status === 200 && request.data.success === true) {
+        const data = request.data.tasks;
+
+        if (Array.isArray(data) && data.length !== 0) {
+          const newFormatData = parseData(data);
+          setTasks(newFormatData);
+          return setLoading(false);
+        }
+
         setLoading(false);
         setTasks({});
       }
     } catch (error) {
       setLoading(false);
-      setError(true);
-      return notify("error", error.message);
+      notify("error", error.message);
     }
-  }, [getData, parseData, setLoading, setTasks]);
-
-  useEffect(() => {
-    console.log("useEffect de tasks");
-    if (token) {
-      getTasks();
-    }
-
-    console.log(rol);
-  }, [token]);
-
-  const handleError = (error) => {
-    if (error) return <p>Error not foud</p>;
-    return hasTasks();
   };
 
-  const hasTasks = () => {
+  const handleTasks = () => {
     const data = Object.values(tasks);
-    if (!(data && data.length !== 0)) return <p>add your first task</p>;
+    if (!(data && data.length !== 0))
+      return (
+        <Link to="/create" className="text-lg text-gray-400 font-semibold">
+          add your first task
+        </Link>
+      );
 
     const paintTasks = data.map((task) => {
-      return <Task key={task.id} {...task} fn={executeDeleteTask}></Task>;
+      return <Task key={task.id} {...task} fn={(e) => deleteTask(e)}></Task>;
     });
 
     return paintTasks;
   };
 
+  useEffect(() => {
+    console.log("useEffect tasks");
+    getTasks();
+  }, []);
+
   return (
     <Layout>
-      <div className="m-8 w-full flex items-center justify-around">
-        <TitlePage text="Your tasks" />
-
-        <Link className="hidden" to="/create">
-          <Button name="add task" />
+      <div className="relative  m-8 w-full flex items-center justify-center">
+        <TitlePage text="All your tasks" />
+        <Link className="hidden  absolute block right-0 top-0" to="/create">
+          <Button name="add a task" />
         </Link>
       </div>
-
-      {loading ? <Screen children={<Spinner />} /> : handleError(error)}
+      {loading ? <Screen children={<Spinner />} /> : handleTasks()}
     </Layout>
   );
 };

@@ -1,6 +1,11 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { DataContext } from "../context/dataContext";
 
+import GoogleLogin from "react-google-login";
+import googleImage from "../assets/google.svg";
+
+import { useHistory } from "react-router-dom";
+import api from "../services/api";
 // components
 import Form from "../components/form";
 import Input from "../components/Utils/input";
@@ -23,19 +28,11 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState({});
+  const [alert, setAlert] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   // provider
-  const {
-    login,
-    alert,
-    setAlert,
-    loading,
-    setLoading,
-    fields,
-    useHistory,
-    setToken,
-    getRol,
-  } = useContext(DataContext);
+  const { setToken, getRol } = useContext(DataContext);
 
   // router
   const history = useHistory();
@@ -48,12 +45,12 @@ const Login = () => {
   const sendData = async (e) => {
     e.preventDefault();
 
-    const emailHasError = hasError(email, "correo requerido"),
+    const emailHasError = hasError(email, "email required"),
       passwordHasError = hasError(
         password,
-        "contraseña requerida",
+        "password required",
         action.type,
-        "contraseña invalida, la contraseña debe contener 6 caracteres"
+        "invalida password, password must contain 6 characters"
       );
 
     let validation = {
@@ -64,7 +61,7 @@ const Login = () => {
     if (!validation.email) {
       const emailValid = validateEmail(email);
       if (!emailValid) {
-        validation.email = "email invalido";
+        validation.email = "invalid email";
       }
     }
 
@@ -81,8 +78,7 @@ const Login = () => {
         password,
       };
 
-      const request = await login(body);
-
+      const request = await api.post("/login", body);
       if (request.status === 200) {
         setLoading(false);
         const response = request.data;
@@ -109,18 +105,31 @@ const Login = () => {
     }
   };
 
+  const handleLoginWithGoogle = async (google) => {
+    try {
+      const request = await api.post("/auth/google", {
+        token: google.tokenId,
+      });
+
+      if (request.status === 200) {
+        const response = request.data;
+
+        window.localStorage.setItem("token", response.token);
+        window.localStorage.setItem("refresh", response.refreshToken);
+
+        setToken(response.token);
+
+        return history.push("/home");
+      }
+    } catch (e) {
+      notify("error", e.message);
+    }
+  };
+
   alert &&
     setTimeout(() => {
       setAlert(false);
     }, 5000);
-
-  useEffect(() => {
-    console.log("useEffect login");
-    if (fields) {
-      setEmail(fields.email);
-      setPassword(fields.password);
-    }
-  }, [fields]);
 
   return (
     <Layout center={true} showNavigation={false}>
@@ -130,7 +139,7 @@ const Login = () => {
       <div className="w-full max-w-xs">
         {alert && (
           <Alert
-            message={"email o contraseña incorrecta"}
+            message={"Incorrect username or password."}
             fn={() => setAlert(false)}
           />
         )}
@@ -138,7 +147,7 @@ const Login = () => {
       <Form mt={0} handleSubmit={(e) => sendData(e)}>
         <div className="mb-6">
           <Input
-            label="email"
+            label="Email"
             placeHolder="example@gmail.com"
             value={email}
             handleChange={(e) => setEmail(e.target.value)}
@@ -149,7 +158,7 @@ const Login = () => {
         </div>
         <div className="mb-6">
           <Input
-            label="password"
+            label="Password"
             placeHolder="password"
             value={password}
             handleChange={(e) => setPassword(e.target.value)}
@@ -159,6 +168,31 @@ const Login = () => {
         </div>
         <div className="flex justify-center ">
           <Button name={action.name} />
+        </div>
+        <div className="w-full flex items-center justify-between pt-5">
+          <hr className="w-full bg-gray-400" />
+          <p className="  leading-4 px-2.5 text-gray-400">Or</p>
+          <hr className="w-full bg-gray-400  " />
+        </div>
+        <div className="flex justify-center mt-5">
+          <GoogleLogin
+            clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+            render={(renderProps) => (
+              <button
+                onClick={renderProps.onClick}
+                disabled={renderProps.disabled}
+                className="py-2.5 px-4 border shadow rounded-lg flex items-center w-full"
+              >
+                <img src={googleImage}></img>
+                <p className="text-sm sm:text-base font-bold ml-4 text-gray-600">
+                  Continue with Google
+                </p>
+              </button>
+            )}
+            onSuccess={handleLoginWithGoogle}
+            onFailure={handleLoginWithGoogle}
+            cookiePolicy={"single_host_origin"}
+          />
         </div>
       </Form>
       {loading && <Screen children={<Spinner />} />}

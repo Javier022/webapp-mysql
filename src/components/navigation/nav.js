@@ -107,10 +107,17 @@ const Navigation = () => {
                     aria-expanded="false"
                     aria-haspopup="true"
                   >
-                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-white">
-                      <p className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-900 to-blue-700">
-                        {dataProfile.username?.[0].toUpperCase()}
-                      </p>
+                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-white overflow-hidden">
+                      {dataProfile.picture ? (
+                        <img
+                          className="object-cover"
+                          src={dataProfile.picture}
+                        ></img>
+                      ) : (
+                        <p className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-900 to-blue-700">
+                          {dataProfile.username?.[0].toUpperCase()}
+                        </p>
+                      )}
                     </div>
                   </button>
                 </div>
@@ -226,6 +233,14 @@ const Navigation = () => {
           <div className="md:hidden" id="mobile-menu">
             <div className="bg-gradient-to-b from-blue-900 to-blue-800 px-2 pt-2 pb-3 space-y-1 sm:px-3">
               {/* bg-gradient-to-r from-blue-900 to-blue-700 */}
+              {rol === 1 && (
+                <Link
+                  to="/dashboard"
+                  className="text-white hover:bg-blue-700 hover:text-white px-3 py-2 rounded-md  font-medium"
+                >
+                  Dashboard
+                </Link>
+              )}
               {secondMenu.map((item, index) => {
                 return (
                   <Link

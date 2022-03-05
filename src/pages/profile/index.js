@@ -12,12 +12,12 @@ import EditProfile from "./editProfile";
 import { capitalizeText } from "../../utilities/regExp";
 
 const Profile = () => {
-  const { dataProfile, loading, setLoading } = useContext(DataContext);
-
-  const { username, fullname, location, bio } = dataProfile;
-
   const [edit, setEdit] = useState(false);
   const [resize, setResize] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const { dataProfile } = useContext(DataContext);
+  const { username, fullname, location, bio } = dataProfile;
 
   const handleChangeComponent = (changeState) => {
     setEdit(changeState);
@@ -39,7 +39,7 @@ const Profile = () => {
       >
         <div className="w-full rounded-lg border border-t-0 shadow mx-6 lg:mx-0">
           <div className="p-4 md:p-12 text-center">
-            <div className="bg-white rounded-full border shadow-md mx-auto -mt-16 h-48 w-48  flex items-center justify-center">
+            <div className="overflow-hidden bg-white rounded-full border shadow-md mx-auto -mt-16 h-48 w-48  flex items-center justify-center ">
               <h1 className="text-8xl text-transparent bg-clip-text bg-gradient-to-r from-blue-900 to-blue-700">
                 {username[0].toUpperCase()}
               </h1>
