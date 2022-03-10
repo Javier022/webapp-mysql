@@ -30,7 +30,6 @@ export const DataProvider = ({ children }) => {
     token,
     setToken,
     signOut,
-    getRol,
 
     // tasks
     tasks,
@@ -41,8 +40,9 @@ export const DataProvider = ({ children }) => {
     setDataProfile,
 
     // rol
-    rol,
+    getRol,
     setRol,
+    rol,
   };
 
   return <DataContext.Provider value={store}>{children}</DataContext.Provider>;

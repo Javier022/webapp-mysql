@@ -7,11 +7,11 @@ import {
 } from "react-router-dom";
 
 // pages
-import TasksPage from "../pages/tasks";
+import TasksPage from "../pages/tasks/index";
 import AddTaskPage from "../pages/addTask";
 import UpdateTask from "../pages/updateTask";
 import Profile from "../pages/profile/index";
-import DashboardAdmin from "../pages/dashboardAdmin";
+import DashboardAdmin from "../pages/dashboardAdmin/index";
 
 // util
 import { useAuth } from "../utilities/useAuth";

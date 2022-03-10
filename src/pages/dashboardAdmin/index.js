@@ -1,42 +1,34 @@
 import React, { useEffect, useState } from "react";
 
-import api from "../services/api";
+import api from "../../services/api";
 // components
-import Screen from "../components/Utils/screen";
-import Spinner from "../components/Utils/spinner/index";
-import Navigation from "../components/navigation/nav";
-import UserCard from "../components/user";
+import Screen from "../../components/Utils/screen";
+import Spinner from "../../components/Utils/spinner/index";
+import Navigation from "../../components/navigation/nav";
+import UserCard from "./user";
 
 // utils
-import { notify } from "../utilities/toast";
-import { parseData } from "../utilities/parseData";
+import { notify } from "../../utilities/toast";
 
 const DashboardAdmin = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
   const deleteUser = async (e) => {
-    const userId = e.target.dataset.id;
+    const userId = parseInt(e.target.dataset.id);
+
     try {
-      // setSpinner(true);
+      const request = await api.delete(`/admin/delete-user/${userId}`);
+      if (request.status === 200 && request.data.success === true) {
+        const users = data.map((item) => {
+          if (item.id === userId) return {};
+          return item;
+        });
 
-      // const request = await api.delete(`/admin/delete-user/${userId}`);
-      // request.status === 200 && request.data.success === true
-
-      setTimeout(() => {
-        if (true) {
-          // setSpinner(false);
-
-          const users = parseData(data);
-          delete users[userId];
-          const newState = Object.values(users);
-
-          setData(newState);
-          return notify("success", "usuario desabilitado");
-        }
-      }, 2000);
+        setData(users);
+        return notify("success", "user disabled");
+      }
     } catch (error) {
-      // setSpinner(false);
       notify("error", error.message);
     }
   };
@@ -49,6 +41,7 @@ const DashboardAdmin = () => {
         setLoading(false);
         const data = request.data.data;
         const users = data.filter((user) => user.state === state);
+
         return setData(users);
       }
     } catch (error) {
@@ -58,7 +51,6 @@ const DashboardAdmin = () => {
   };
 
   useEffect(() => {
-    console.log("useEffect dashboard");
     getDataAdmin();
   }, []);
 
@@ -90,6 +82,7 @@ const DashboardAdmin = () => {
           <div className="px-4 py-6 sm:px-0">
             {/* here end layout */}
             {data.map((item) => {
+              if (Object.values(item).length === 0) return;
               return (
                 <UserCard key={item.id} {...item} fn={(e) => deleteUser(e)} />
               );

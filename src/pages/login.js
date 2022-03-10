@@ -107,11 +107,13 @@ const Login = () => {
 
   const handleLoginWithGoogle = async (google) => {
     try {
+      setLoading(true);
       const request = await api.post("/auth/google", {
         token: google.tokenId,
       });
 
       if (request.status === 200) {
+        setLoading(false);
         const response = request.data;
 
         window.localStorage.setItem("token", response.token);
@@ -122,7 +124,8 @@ const Login = () => {
         return history.push("/home");
       }
     } catch (e) {
-      notify("error", e.message);
+      setLoading(false);
+      notify("error", "something went wrong");
     }
   };
 
@@ -183,7 +186,7 @@ const Login = () => {
                 disabled={renderProps.disabled}
                 className="py-2.5 px-4 border shadow rounded-lg flex items-center w-full"
               >
-                <img src={googleImage}></img>
+                <img alt="google" src={googleImage}></img>
                 <p className="text-sm sm:text-base font-bold ml-4 text-gray-600">
                   Continue with Google
                 </p>

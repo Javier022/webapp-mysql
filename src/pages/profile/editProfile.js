@@ -68,7 +68,7 @@ const EditProfile = ({ setLoading, handleChangeComponent }) => {
 
         handleChangeComponent(false);
 
-        return notify("success", request.message);
+        return notify("success", request.data.message);
       }
     } catch (error) {
       setLoading(false);

@@ -7,23 +7,27 @@
 .container {
   width: 90%;
   max-width: 1200px;
-  overflow: hidden;
   margin: 0 auto;
+  overflow: hidden;
 }
 
 .header {
   background-image: linear-gradient(to right, #1e3a8a, #1d4ac9);
-  position: relative;
-  overflow: hidden;
+  color: white;
+  display: grid;
+  grid-template-rows: max-content 1fr;
+  grid-template-areas: "nav" "content";
+  min-height: 100vh;
 }
 
 .nav {
+  grid-area: nav;
   display: grid;
   grid-auto-flow: column;
   align-items: center;
   justify-content: space-between;
   padding-top: 20px;
-  padding-bottom: 20px;
+  height: 90px;
 }
 
 .nav__picture {
@@ -43,53 +47,44 @@
 
 .nav__link {
   font-weight: 500;
-  color: white;
   padding: 8px 20px;
   border-radius: 5px;
-}
-
-.nav__link:hover {
-  background-color: #1d4ac9;
 }
 
 .nav__link--border {
   border: 1px solid white;
 }
 
+.header__main {
+  grid-area: content;
+  padding-bottom: 180px;
+}
+
 .info__container {
-  color: white;
   text-align: center;
 }
 
 .info__title {
   font-size: 45px;
-  font-weight: bold;
+  letter-spacing: 2px;
 }
 
 .info__paragraph {
   margin-top: 10px;
   margin-bottom: 35px;
+  font-size: 20px;
 }
 
 .info__btn {
-  padding: 10px 45px;
+  padding: 13px 40px;
   background-image: linear-gradient(to right, #1e3a8a, #1d4ac9);
   border-radius: 5px;
   margin-bottom: 25px;
-  font-weight: 500;
-}
-
-.info__btn:hover {
-  background-color: red;
-  background-image: linear-gradient(to right, #1e3a8a, #1d4ac9);
-}
-
-.header__info {
-  padding-bottom: 40px;
 }
 
 .header__picture {
-  padding-top: 20px;
+  margin: 0 auto;
+  padding-top: 40px;
   max-width: 500px;
 }
 
@@ -98,18 +93,12 @@
 }
 
 .header__wave {
-  position: absolute;
-  width: 100%;
-  height: 100px;
-  background-image: url("../../assets/wave.svg");
-  background-size: 100% 100%, cover;
-  overflow: hidden;
-  bottom: 0;
+  grid-area: content;
+  align-self: flex-end;
 }
 
-@media (min-width: 740px) {
-  .header__info {
-    padding-bottom: 90px;
+@media (min-width: 800px) {
+  .header__main {
     display: grid;
     grid-auto-flow: column;
     align-items: center;
@@ -119,9 +108,5 @@
 
   .header__picture {
     padding-top: 0px;
-  }
-
-  .header__wave {
-    height: 200px;
   }
 }

@@ -1,18 +1,18 @@
-import React, { useState, useEffect, useContext, useCallback } from "react";
-import { DataContext } from "../context/dataContext";
+import React, { useState, useEffect, useContext } from "react";
+import { DataContext } from "../../context/dataContext";
 
-import api from "../services/api";
+import api from "../../services/api";
 // components
-import Task from "../components/task";
-import Layout from "../components/layout";
-import Button from "../components/Utils/button";
-import Screen from "../components/Utils/screen";
-import Spinner from "../components/Utils/spinner";
-import TitlePage from "../components/Utils/titlePage";
+import Layout from "../../components/layout";
+import Button from "../../components/Utils/button";
+import Screen from "../../components/Utils/screen";
+import Spinner from "../../components/Utils/spinner";
+import TitlePage from "../../components/Utils/titlePage";
+import Task from "./task";
 
 // utils
-import { notify } from "../utilities/toast";
-import { parseData } from "../utilities/parseData";
+import { notify } from "../../utilities/toast";
+import { parseData } from "../../utilities/parseData";
 // router
 import { Link } from "react-router-dom";
 
@@ -27,7 +27,6 @@ const TasksPage = () => {
 
       if (request.status === 200 && request.data.success) {
         delete tasks[id];
-
         setTasks({ ...tasks });
         notify("success", "task deleted");
       }
@@ -42,15 +41,14 @@ const TasksPage = () => {
       const request = await api.get("/tasks");
 
       if (request.status === 200 && request.data.success === true) {
+        setLoading(false);
         const data = request.data.tasks;
 
         if (Array.isArray(data) && data.length !== 0) {
           const newFormatData = parseData(data);
-          setTasks(newFormatData);
-          return setLoading(false);
+          return setTasks(newFormatData);
         }
 
-        setLoading(false);
         setTasks({});
       }
     } catch (error) {
@@ -76,12 +74,11 @@ const TasksPage = () => {
   };
 
   useEffect(() => {
-    console.log("useEffect tasks");
     getTasks();
   }, []);
 
   return (
-    <Layout>
+    <Layout height="full">
       <div className="relative  m-8 w-full flex items-center justify-center">
         <TitlePage text="All your tasks" />
         <Link className="hidden  absolute block right-0 top-0" to="/create">

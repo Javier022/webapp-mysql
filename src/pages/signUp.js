@@ -102,7 +102,6 @@ const SignUp = () => {
         }
 
         setErrors({});
-        console.log(data.data.randomValue);
         setRandomString(data.data.randomValue);
         return setEmailSubmited(true);
       }

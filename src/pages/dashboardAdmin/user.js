@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import Spinner from "../../components/Utils/spinner";
 
 const User = ({ fn, id, username, email, rol, state }) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  console.log(isLoading, "state");
+  useEffect(() => {
+    return () => {
+      setLoading(false);
+    };
+  }, []);
 
   return (
     <div className="flex flex-col space-y-1 sm:space-y-0 sm:flex sm:flex-row border bg-white rounded-lg shadow p-4 mb-8">
@@ -47,12 +52,15 @@ const User = ({ fn, id, username, email, rol, state }) => {
 
       {state ? (
         <div className="flex-1 flex justify-center pt-3 sm:pt-0 sm:flex justify-center items-center">
-          {isLoading ? (
-            <p>loading...</p>
+          {loading ? (
+            <Spinner size={6} mb={0} border={2} />
           ) : (
             <button
               data-id={id}
-              onClick={(e) => (fn(e), setIsLoading(true))}
+              onClick={(e) => {
+                fn(e);
+                setLoading(true);
+              }}
               className=" w-full py-2 sm:w-auto sm:px-7 sm:py-1.5  text-white text-xs font-bold rounded-lg bg-red-600"
             >
               eliminar

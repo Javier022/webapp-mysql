@@ -112,6 +112,7 @@ const Navigation = () => {
                         <img
                           className="object-cover"
                           src={dataProfile.picture}
+                          alt="user avatar"
                         ></img>
                       ) : (
                         <p className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-900 to-blue-700">

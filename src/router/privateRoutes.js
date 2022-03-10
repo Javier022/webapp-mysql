@@ -66,7 +66,6 @@ const PrivateRoutes = ({ children, ...rest }) => {
   };
 
   useEffect(() => {
-    console.log("useEffect routesPro");
     if (token) {
       getDataProfile();
       getRol(token);

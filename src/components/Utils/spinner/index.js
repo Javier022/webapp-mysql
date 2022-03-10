@@ -1,9 +1,11 @@
 import React from "react";
 import "./index.css";
 
-const Spinner = () => {
+const Spinner = ({ size = 12, mb = 4, border = 4 }) => {
   return (
-    <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"></div>
+    <div
+      className={`loader ease-linear rounded-full border-${border} border-t-${border} border-gray-200 h-${size} w-${size} mb-${mb}`}
+    ></div>
   );
 };
 

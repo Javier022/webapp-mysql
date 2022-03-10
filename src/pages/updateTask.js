@@ -70,7 +70,7 @@ const UpdateTask = () => {
       setDescription(task.description);
     } else if (Object.values(tasks).length === 0) {
       // ir a traer la data de nuevo pero habria que volver a parsearla
-      console.log("get data again");
+      // console.log("get data again");
     }
   }, [id, tasks]);
 
