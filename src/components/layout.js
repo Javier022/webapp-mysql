@@ -1,7 +1,7 @@
 import React from "react";
 
 // components
-import Navigation from "./navigation/nav";
+import Navigation from "components/navigation/nav";
 
 const Layout = ({
   children,

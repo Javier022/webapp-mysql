@@ -1,15 +1,15 @@
 import React, { useEffect, useContext, useState } from "react";
-import { DataContext } from "../context/dataContext";
+import { DataContext } from "context/dataContext";
 
 import { Route, Redirect } from "react-router-dom";
-import api from "../services/api";
+import api from "services/api";
 // components
-import FullScreen from "../components/Utils/fullScreen";
-import Spinner from "../components/Utils/spinner";
-import Title from "../components/Utils/title";
+import FullScreen from "components/Utils/fullScreen";
+import Spinner from "components/Utils/spinner";
+import Title from "components/Utils/title";
 
 // utils
-import { objectHasValues } from "../utilities/objectHasValues";
+import { objectHasValues } from "utilities/objectHasValues";
 
 const PrivateRoutes = ({ children, ...rest }) => {
   const { token, getRol, setDataProfile } = useContext(DataContext);

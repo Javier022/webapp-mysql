@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Spinner from "../../components/Utils/spinner";
+import Spinner from "components/Utils/spinner";
 
 const User = ({ fn, id, username, email, rol, state }) => {
   const [loading, setLoading] = useState(false);

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Spinner from "../../components/Utils/spinner/index";
+import Spinner from "components/Utils/spinner/index";
 
 const Task = ({ id, title, description, fn }) => {
   const [loading, setLoading] = useState(false);

@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 
 //auth
-import { useAuth } from "../utilities/useAuth";
+import { useAuth } from "utilities/useAuth";
 
 const PublicRoutes = ({ children, ...rest }) => {
   const auth = useAuth();

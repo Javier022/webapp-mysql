@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { DataContext } from "../../context/dataContext";
+import { DataContext } from "context/dataContext";
 import "./nav.css";
 
 // router

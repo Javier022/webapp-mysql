@@ -1,37 +1,40 @@
+import React, { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 // pages
-import LandingPage from "../pages/landing/index";
-import LoginPage from "../pages/login";
-import SignUpPage from "../pages/signUp";
-import ConfirmEmailPage from "../pages/confirmEmail";
-import NotFound404 from "../pages/notFound404";
+const LandingPage = lazy(() => import("pages/landing/index"));
+const LoginPage = lazy(() => import("pages/login"));
+const SignUpPage = lazy(() => import("pages/signUp"));
+const ConfirmEmailPage = lazy(() => import("pages/confirmEmail"));
+const NotFound404 = lazy(() => import("pages/notFound404"));
 
 const PublicPages = () => {
   return (
-    <Router>
-      <Switch>
-        <Route exact path="/">
-          <LandingPage />
-        </Route>
+    <Suspense fallback={null}>
+      <Router>
+        <Switch>
+          <Route exact path="/">
+            <LandingPage />
+          </Route>
 
-        <Route path="/login">
-          <LoginPage />
-        </Route>
+          <Route path="/login">
+            <LoginPage />
+          </Route>
 
-        <Route path="/signup">
-          <SignUpPage />
-        </Route>
+          <Route path="/signup">
+            <SignUpPage />
+          </Route>
 
-        <Route path="/confirm/:id">
-          <ConfirmEmailPage />
-        </Route>
+          <Route path="/confirm/:id">
+            <ConfirmEmailPage />
+          </Route>
 
-        <Route path="*">
-          <NotFound404 />
-        </Route>
-      </Switch>
-    </Router>
+          <Route path="*">
+            <NotFound404 />
+          </Route>
+        </Switch>
+      </Router>
+    </Suspense>
   );
 };
 

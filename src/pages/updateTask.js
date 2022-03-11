@@ -1,21 +1,21 @@
 import React, { useContext, useState, useEffect } from "react";
-import { DataContext } from "../context/dataContext";
+import { DataContext } from "context/dataContext";
 
-import api from "../services/api";
+import api from "services/api";
 import { useHistory, useParams } from "react-router-dom";
 // componets
-import Layout from "../components/layout";
-import Form from "../components/form";
-import Input from "../components/Utils/input";
-import Button from "../components/Utils/button";
-import Screen from "../components/Utils/screen";
-import Spinner from "../components/Utils/spinner";
-import TitlePage from "../components/Utils/titlePage";
+import Layout from "components/layout";
+import Form from "components/form";
+import Input from "components/Utils/input";
+import Button from "components/Utils/button";
+import Screen from "components/Utils/screen";
+import Spinner from "components/Utils/spinner";
+import TitlePage from "components/Utils/titlePage";
 
 // utils
-import { objectHasValues } from "../utilities/objectHasValues";
-import { validateInput } from "../utilities/validateInput";
-import { notify } from "../utilities/toast";
+import { objectHasValues } from "utilities/objectHasValues";
+import { validateInput } from "utilities/validateInput";
+import { notify } from "utilities/toast";
 
 const UpdateTask = () => {
   const [title, setTitle] = useState("");

@@ -1,6 +1,6 @@
 import React from "react";
 
-import Navigation from "../components/navigation/nav";
+import Navigation from "components/navigation/nav";
 
 const NotFound404 = () => {
   return (

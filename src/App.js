@@ -1,8 +1,8 @@
 import React from "react";
-import { DataProvider } from "./context/dataContext";
+import { DataProvider } from "context/dataContext";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Routes from "./router";
+import Routes from "router";
 
 function App() {
   return (

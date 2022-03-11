@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import "./style.css";
-import todoList from "../../assets/todo.svg";
-import wave from "../../assets/wave.svg";
+import todoList from "assets/todo.svg";
+import wave from "assets/wave.svg";
 
 const PublicPage = () => {
   return (

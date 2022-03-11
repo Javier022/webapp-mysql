@@ -1,18 +1,18 @@
 import React, { useState, useEffect, useContext } from "react";
-import { DataContext } from "../../context/dataContext";
+import { DataContext } from "context/dataContext";
 
-import api from "../../services/api";
+import api from "services/api";
 // components
-import Layout from "../../components/layout";
-import Button from "../../components/Utils/button";
-import Screen from "../../components/Utils/screen";
-import Spinner from "../../components/Utils/spinner";
-import TitlePage from "../../components/Utils/titlePage";
+import Layout from "components/layout";
+import Button from "components/Utils/button";
+import Screen from "components/Utils/screen";
+import Spinner from "components/Utils/spinner";
+import TitlePage from "components/Utils/titlePage";
 import Task from "./task";
 
 // utils
-import { notify } from "../../utilities/toast";
-import { parseData } from "../../utilities/parseData";
+import { notify } from "utilities/toast";
+import { parseData } from "utilities/parseData";
 // router
 import { Link } from "react-router-dom";
 

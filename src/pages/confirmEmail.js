@@ -1,14 +1,14 @@
 import React, { useEffect, useContext } from "react";
-import { DataContext } from "../context/dataContext";
+import { DataContext } from "context/dataContext";
 
 import { useParams, useHistory } from "react-router-dom";
-import api from "../services/api";
+import api from "services/api";
 // components
-import FullScreen from "../components/Utils/fullScreen";
-import Spinner from "../components/Utils/spinner";
+import FullScreen from "components/Utils/fullScreen";
+import Spinner from "components/Utils/spinner";
 
 // utils
-import { notify } from "../utilities/toast";
+import { notify } from "utilities/toast";
 
 const ConfirmEmail = () => {
   const { setToken } = useContext(DataContext);

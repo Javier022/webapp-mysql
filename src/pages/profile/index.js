@@ -1,15 +1,15 @@
 import React, { useContext, useState } from "react";
-import { DataContext } from "../../context/dataContext";
+import { DataContext } from "context/dataContext";
 
 // components
-import Navigation from "../../components/navigation/nav";
-import Screen from "../../components/Utils/screen";
-import Spinner from "../../components/Utils/spinner";
+import Navigation from "components/navigation/nav";
+import Screen from "components/Utils/screen";
+import Spinner from "components/Utils/spinner";
 
 import EditProfile from "./editProfile";
 
 // utils
-import { capitalizeText } from "../../utilities/regExp";
+import { capitalizeText } from "utilities/regExp";
 
 const Profile = () => {
   const [edit, setEdit] = useState(false);

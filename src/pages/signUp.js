@@ -1,20 +1,20 @@
 import React, { useState } from "react";
 
-import api from "../services/api";
+import api from "services/api";
 // components
-import Form from "../components/form";
-import Input from "../components/Utils/input";
-import Button from "../components/Utils/button";
-import Layout from "../components/layout";
-import Alert from "../components/Utils/alert";
-import Circle from "../components/Utils/circle";
-import Screen from "../components/Utils/screen";
-import Spinner from "../components/Utils/spinner/index";
+import Form from "components/form";
+import Input from "components/Utils/input";
+import Button from "components/Utils/button";
+import Layout from "components/layout";
+import Alert from "components/Utils/alert";
+import Circle from "components/Utils/circle";
+import Screen from "components/Utils/screen";
+import Spinner from "components/Utils/spinner/index";
 
 // utils
-import { hasError } from "../utilities/validateInput";
-import { validateEmail, textHasBlanks } from "../utilities/regExp";
-import { notify } from "../utilities/toast";
+import { hasError } from "utilities/validateInput";
+import { validateEmail, textHasBlanks } from "utilities/regExp";
+import { notify } from "utilities/toast";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");

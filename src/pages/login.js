@@ -1,28 +1,28 @@
 import React, { useState, useContext } from "react";
-import { DataContext } from "../context/dataContext";
+import { DataContext } from "context/dataContext";
 
 import GoogleLogin from "react-google-login";
-import googleImage from "../assets/google.svg";
+import googleImage from "assets/google.svg";
 
 import { useHistory } from "react-router-dom";
-import api from "../services/api";
+import api from "services/api";
 // components
-import Form from "../components/form";
-import Input from "../components/Utils/input";
-import Button from "../components/Utils/button";
-import Layout from "../components/layout";
-import Alert from "../components/Utils/alert";
-import Circle from "../components/Utils/circle";
-import Screen from "../components/Utils/screen";
-import Spinner from "../components/Utils/spinner";
-import Title from "../components/Utils/title";
+import Form from "components/form";
+import Input from "components/Utils/input";
+import Button from "components/Utils/button";
+import Layout from "components/layout";
+import Alert from "components/Utils/alert";
+import Circle from "components/Utils/circle";
+import Screen from "components/Utils/screen";
+import Spinner from "components/Utils/spinner";
+import Title from "components/Utils/title";
 
 // validate auth
-import { hasError } from "../utilities/validateInput";
-import { validateEmail } from "../utilities/regExp";
+import { hasError } from "utilities/validateInput";
+import { validateEmail } from "utilities/regExp";
 
 // utils
-import { notify } from "../utilities/toast";
+import { notify } from "utilities/toast";
 
 const Login = () => {
   const [email, setEmail] = useState("");

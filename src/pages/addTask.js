@@ -1,20 +1,20 @@
 import React, { useState } from "react";
 
-import api from "../services/api";
+import api from "services/api";
 import { useHistory } from "react-router-dom";
 // componemts
-import Input from "../components/Utils/input";
-import Button from "../components/Utils/button";
-import Layout from "../components/layout";
-import Form from "../components/form";
-import Screen from "../components/Utils/screen";
-import Spinner from "../components/Utils/spinner";
-import TitlePage from "../components/Utils/titlePage";
+import Input from "components/Utils/input";
+import Button from "components/Utils/button";
+import Layout from "components/layout";
+import Form from "components/form";
+import Screen from "components/Utils/screen";
+import Spinner from "components/Utils/spinner";
+import TitlePage from "components/Utils/titlePage";
 
 // utils
-import { notify } from "../utilities/toast";
-import { validateInput } from "../utilities/validateInput";
-import { objectHasValues } from "../utilities/objectHasValues";
+import { notify } from "utilities/toast";
+import { validateInput } from "utilities/validateInput";
+import { objectHasValues } from "utilities/objectHasValues";
 
 const AddTask = () => {
   const [title, setTitle] = useState("");

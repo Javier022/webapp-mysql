@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useContext } from "react";
-import { DataContext } from "../../context/dataContext";
-import api from "../../services/api";
+import { DataContext } from "context/dataContext";
+import api from "services/api";
 // components
-import Form from "../../components/form";
-import Input from "../../components/Utils/input";
-import Button from "../../components/Utils/button";
+import Form from "components/form";
+import Input from "components/Utils/input";
+import Button from "components/Utils/button";
 
 // utils
-import { notify } from "../../utilities/toast";
+import { notify } from "utilities/toast";
 
 const EditProfile = ({ setLoading, handleChangeComponent }) => {
   const { dataProfile, setDataProfile } = useContext(DataContext);

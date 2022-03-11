@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 
-import api from "../../services/api";
+import api from "services/api";
 // components
-import Screen from "../../components/Utils/screen";
-import Spinner from "../../components/Utils/spinner/index";
-import Navigation from "../../components/navigation/nav";
+import Screen from "components/Utils/screen";
+import Spinner from "components/Utils/spinner/index";
+import Navigation from "components/navigation/nav";
 import UserCard from "./user";
 
 // utils
