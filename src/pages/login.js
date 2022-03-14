@@ -129,6 +129,15 @@ const Login = () => {
     }
   };
 
+  const onFailure = (response) => {
+    let text = response.error.split("_").join(" ");
+    if (text === "access denied")
+      notify(
+        "warning",
+        "The user denied the permission to the scopes required"
+      );
+  };
+
   alert &&
     setTimeout(() => {
       setAlert(false);
@@ -193,7 +202,7 @@ const Login = () => {
               </button>
             )}
             onSuccess={handleLoginWithGoogle}
-            onFailure={handleLoginWithGoogle}
+            onFailure={onFailure}
             cookiePolicy={"single_host_origin"}
           />
         </div>
