@@ -3,7 +3,12 @@ import { Link } from "react-router-dom";
 import Spinner from "components/Utils/spinner/index";
 
 const Task = ({ id, title, description, fn }) => {
-  const [loading, setLoading] = useState(false);
+  const [loadingUser, setLoadingUser] = useState(false);
+
+  let props = {
+    id,
+    setLoadingUser,
+  };
 
   return (
     <div className="w-full p-4 mb-8 mx-auto border bg-white rounded-lg shadow flex items-center">
@@ -17,15 +22,11 @@ const Task = ({ id, title, description, fn }) => {
       </div>
 
       <div className="flex-initial ">
-        {loading ? (
+        {loadingUser ? (
           <Spinner size={6} mb={0} border={2} />
         ) : (
           <button
-            data-id={id}
-            onClick={(e) => {
-              fn(e);
-              setLoading(true);
-            }}
+            onClick={() => fn(props)}
             className="text-xs bg-red-600 text-white rounded p-1"
           >
             delete

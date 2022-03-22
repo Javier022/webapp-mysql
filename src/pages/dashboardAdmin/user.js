@@ -1,14 +1,38 @@
-import React, { useEffect, useState } from "react";
-import Spinner from "components/Utils/spinner";
+import React, { useState, useContext } from "react";
+import { DataContext } from "context/dataContext";
+import api from "services/api";
 
-const User = ({ fn, id, username, email, rol, state }) => {
+// components
+import Spinner from "components/Utils/spinner/index";
+// utils
+import { notify } from "utilities/toast";
+
+const Users = ({ id, username, email, rol, state }) => {
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    return () => {
+  const { users, setUsers } = useContext(DataContext);
+
+  const deleteUser = async (e) => {
+    const userId = parseInt(e.target.dataset.id);
+
+    try {
+      setLoading(true);
+      const request = await api.delete(`/admin/delete-user/${userId}`);
+      if (request.status === 200 && request.data.success === true) {
+        setLoading(false);
+        const activeUsers = users.map((item) => {
+          if (item.id === userId) return {};
+          return item;
+        });
+
+        setUsers(activeUsers);
+        return notify("success", "user disabled");
+      }
+    } catch (error) {
       setLoading(false);
-    };
-  }, []);
+      notify("error", error.message);
+    }
+  };
 
   return (
     <div className="flex flex-col space-y-1 sm:space-y-0 sm:flex sm:flex-row border bg-white rounded-lg shadow p-4 mb-8">
@@ -57,10 +81,7 @@ const User = ({ fn, id, username, email, rol, state }) => {
           ) : (
             <button
               data-id={id}
-              onClick={(e) => {
-                fn(e);
-                setLoading(true);
-              }}
+              onClick={(e) => deleteUser(e)}
               className=" w-full py-2 sm:w-auto sm:px-7 sm:py-1.5  text-white text-xs font-bold rounded-lg bg-red-600"
             >
               eliminar
@@ -74,4 +95,4 @@ const User = ({ fn, id, username, email, rol, state }) => {
   );
 };
 
-export default User;
+export default Users;

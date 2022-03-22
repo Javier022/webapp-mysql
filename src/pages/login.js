@@ -101,6 +101,9 @@ const Login = () => {
       }
     } catch (error) {
       setLoading(false);
+      if (error.response) {
+        return notify("error", error.response.data.message);
+      }
       notify("error", error.message);
     }
   };
@@ -123,9 +126,12 @@ const Login = () => {
 
         return history.push("/home");
       }
-    } catch (e) {
+    } catch (error) {
       setLoading(false);
-      notify("error", "something went wrong");
+      if (error.response) {
+        return notify("error", error.response.data.message);
+      }
+      notify("error", error.message);
     }
   };
 

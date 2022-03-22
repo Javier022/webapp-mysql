@@ -17,7 +17,7 @@ function App() {
         rtl={false}
         pauseOnFocusLoss={false}
         draggable
-        pauseOnHover={false}
+        // pauseOnHover={false}
       />
     </DataProvider>
   );

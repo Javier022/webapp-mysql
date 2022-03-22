@@ -33,7 +33,11 @@ instance.interceptors.response.use(
   async (error) => {
     const originalConfig = error.config;
 
-    if (originalConfig.url !== "/login" && error.response) {
+    if (
+      originalConfig.url !== "/login" &&
+      originalConfig.url !== "/auth/google" &&
+      error.response
+    ) {
       if (error.response.status === 401 && !originalConfig._retry) {
         originalConfig._retry = true;
 

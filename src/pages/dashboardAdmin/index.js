@@ -1,37 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 
+import { DataContext } from "context/dataContext";
 import api from "services/api";
 // components
 import Screen from "components/Utils/screen";
 import Spinner from "components/Utils/spinner/index";
-import Navigation from "components/navigation/nav";
-import UserCard from "./user";
+import Navigation from "components/navigation/index";
+import User from "./user";
 
 // utils
 import { notify } from "../../utilities/toast";
 
 const DashboardAdmin = () => {
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
-
-  const deleteUser = async (e) => {
-    const userId = parseInt(e.target.dataset.id);
-
-    try {
-      const request = await api.delete(`/admin/delete-user/${userId}`);
-      if (request.status === 200 && request.data.success === true) {
-        const users = data.map((item) => {
-          if (item.id === userId) return {};
-          return item;
-        });
-
-        setData(users);
-        return notify("success", "user disabled");
-      }
-    } catch (error) {
-      notify("error", error.message);
-    }
-  };
+  const { users, setUsers } = useContext(DataContext);
 
   const getDataAdmin = async (state = 1) => {
     try {
@@ -42,7 +24,7 @@ const DashboardAdmin = () => {
         const data = request.data.data;
         const users = data.filter((user) => user.state === state);
 
-        return setData(users);
+        return setUsers(users);
       }
     } catch (error) {
       setLoading(false);
@@ -81,11 +63,9 @@ const DashboardAdmin = () => {
           </div>
           <div className="px-4 py-6 sm:px-0">
             {/* here end layout */}
-            {data.map((item) => {
+            {users.map((item) => {
               if (Object.values(item).length === 0) return;
-              return (
-                <UserCard key={item.id} {...item} fn={(e) => deleteUser(e)} />
-              );
+              return <User key={item.id} {...item} />;
             })}
             {/*  */}
           </div>

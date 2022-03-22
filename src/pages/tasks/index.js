@@ -20,17 +20,19 @@ const TasksPage = () => {
   const [loading, setLoading] = useState(false);
   const { tasks, setTasks } = useContext(DataContext);
 
-  const deleteTask = async (e) => {
-    const id = e.target.dataset.id;
+  const deleteTask = async ({ id, setLoadingUser }) => {
     try {
+      setLoadingUser(true);
       const request = await api.delete(`/tasks/${id}`);
 
       if (request.status === 200 && request.data.success) {
+        setLoadingUser(false);
         delete tasks[id];
         setTasks({ ...tasks });
         notify("success", "task deleted");
       }
     } catch (error) {
+      setLoadingUser(false);
       notify("error", error.message);
     }
   };
@@ -67,7 +69,13 @@ const TasksPage = () => {
       );
 
     const paintTasks = data.map((task) => {
-      return <Task key={task.id} {...task} fn={(e) => deleteTask(e)}></Task>;
+      return (
+        <Task
+          key={task.id}
+          {...task}
+          fn={(propsChild) => deleteTask(propsChild)}
+        ></Task>
+      );
     });
 
     return paintTasks;

@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { DataContext } from "context/dataContext";
 
 // components
-import Navigation from "components/navigation/nav";
+import Navigation from "components/navigation/index";
 import Screen from "components/Utils/screen";
 import Spinner from "components/Utils/spinner";
 

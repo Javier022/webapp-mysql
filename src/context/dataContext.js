@@ -4,8 +4,9 @@ export const DataContext = createContext();
 
 export const DataProvider = ({ children }) => {
   const [tasks, setTasks] = useState({});
-  const [dataProfile, setDataProfile] = useState(null);
+  const [dataProfile, setDataProfile] = useState({});
   const [rol, setRol] = useState("");
+  const [users, setUsers] = useState([]);
   // auth token
   const [token, setToken] = useState(() =>
     window.localStorage.getItem("token")
@@ -26,6 +27,9 @@ export const DataProvider = ({ children }) => {
   };
 
   const store = {
+    users,
+    setUsers,
+
     //auth
     token,
     setToken,
