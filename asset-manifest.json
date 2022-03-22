@@ -1,0 +1,28 @@
+{
+  "files": {
+    "main.css": "/webapp-mysql/static/css/main.66fb59c7.chunk.css",
+    "main.js": "/webapp-mysql/static/js/main.0c77d226.chunk.js",
+    "main.js.map": "/webapp-mysql/static/js/main.0c77d226.chunk.js.map",
+    "runtime-main.js": "/webapp-mysql/static/js/runtime-main.2e5f32b8.js",
+    "runtime-main.js.map": "/webapp-mysql/static/js/runtime-main.2e5f32b8.js.map",
+    "static/css/2.68b64559.chunk.css": "/webapp-mysql/static/css/2.68b64559.chunk.css",
+    "static/js/2.81ae794d.chunk.js": "/webapp-mysql/static/js/2.81ae794d.chunk.js",
+    "static/js/2.81ae794d.chunk.js.map": "/webapp-mysql/static/js/2.81ae794d.chunk.js.map",
+    "static/js/3.efe28f49.chunk.js": "/webapp-mysql/static/js/3.efe28f49.chunk.js",
+    "static/js/3.efe28f49.chunk.js.map": "/webapp-mysql/static/js/3.efe28f49.chunk.js.map",
+    "index.html": "/webapp-mysql/index.html",
+    "static/css/2.68b64559.chunk.css.map": "/webapp-mysql/static/css/2.68b64559.chunk.css.map",
+    "static/css/main.66fb59c7.chunk.css.map": "/webapp-mysql/static/css/main.66fb59c7.chunk.css.map",
+    "static/js/2.81ae794d.chunk.js.LICENSE.txt": "/webapp-mysql/static/js/2.81ae794d.chunk.js.LICENSE.txt",
+    "static/media/google.12a2cff2.svg": "/webapp-mysql/static/media/google.12a2cff2.svg",
+    "static/media/todo.24c71ee1.svg": "/webapp-mysql/static/media/todo.24c71ee1.svg",
+    "static/media/wave.c8ac1856.svg": "/webapp-mysql/static/media/wave.c8ac1856.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.2e5f32b8.js",
+    "static/css/2.68b64559.chunk.css",
+    "static/js/2.81ae794d.chunk.js",
+    "static/css/main.66fb59c7.chunk.css",
+    "static/js/main.0c77d226.chunk.js"
+  ]
+}
