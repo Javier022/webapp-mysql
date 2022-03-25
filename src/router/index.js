@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Switch } from "react-router-dom";
+import { HashRouter as Router, Switch } from "react-router-dom";
 
 // Routes
 import PrivateRoutes from "./privateRoutes";
@@ -17,7 +17,7 @@ const Routes = () => {
           <ProtectedPages />
         </PrivateRoutes>
 
-        <PublicRoutes path="/">
+        <PublicRoutes path="/webapp-mysql">
           <PublicPages />
         </PublicRoutes>
       </Switch>

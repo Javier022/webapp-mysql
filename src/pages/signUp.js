@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import api from "services/api";
+import emailIcon from "assets/email.svg";
 // components
 import Form from "components/form";
 import Input from "components/Utils/input";
@@ -92,7 +93,7 @@ const SignUp = () => {
         setLoading(false);
         const data = request.data;
 
-        if (data.message === "Email already registered") {
+        if (data.message === "email already registered") {
           setAlert(true);
           errors.email = data.message;
           return setErrors(errors);
@@ -115,6 +116,10 @@ const SignUp = () => {
     setCount(count + 1);
     if (count > 3) {
       return notify("warning", "please, check your email");
+    }
+
+    if (!(email && username && randomString)) {
+      return notify("error", "something went wrong");
     }
 
     try {
@@ -142,15 +147,11 @@ const SignUp = () => {
       {emailSubmited ? (
         <div className="w-full max-w-xs mt-3">
           <div className="text-center bg-white border shadow-md rounded-lg px-8 pt-6 pb-8 mb-4">
-            <i
-              className="far fa-envelope-open"
-              style={{
-                fontSize: 50,
-                paddingTop: 15,
-                paddingBottom: 20,
-                color: "#1e3a8a",
-              }}
-            ></i>
+            <img
+              alt="Todo App"
+              src={emailIcon}
+              className="mx-auto w-20 h-14 mt-4 mb-2"
+            ></img>
             <p className="text-center w-full text-2xl mb-4 text-blue-900">
               Check your email
             </p>
