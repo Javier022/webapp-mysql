@@ -7,6 +7,7 @@ export const DataProvider = ({ children }) => {
   const [dataProfile, setDataProfile] = useState({});
   const [rol, setRol] = useState("");
   const [users, setUsers] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
   // auth token
   const [token, setToken] = useState(() =>
     window.localStorage.getItem("token")
@@ -29,6 +30,8 @@ export const DataProvider = ({ children }) => {
   const store = {
     users,
     setUsers,
+    isOpen,
+    setIsOpen,
 
     //auth
     token,
