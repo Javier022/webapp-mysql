@@ -1,5 +1,5 @@
 import React from "react";
-import { HashRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 // pages
 import LandingPage from "pages/landing/index";
@@ -12,7 +12,7 @@ const PublicPages = () => {
   return (
     <Router>
       <Switch>
-        <Route exact path="/webapp-mysql">
+        <Route exact path="/">
           <LandingPage />
         </Route>
 

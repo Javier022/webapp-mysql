@@ -12,10 +12,10 @@ import Title from "components/Utils/title";
 import { objectHasValues } from "utilities/objectHasValues";
 
 const PrivateRoutes = ({ children, ...rest }) => {
-  const { token, getRol, setDataProfile } = useContext(DataContext);
-
   const [serverError, setServerError] = useState(false);
-  const [render, setRender] = useState(false);
+  const [showPages, setShowPages] = useState(false);
+
+  const { token, getRol, setDataProfile } = useContext(DataContext);
 
   const getDataProfile = async (request = 1) => {
     try {
@@ -26,7 +26,7 @@ const PrivateRoutes = ({ children, ...rest }) => {
 
         if (objectHasValues(profile)) {
           setDataProfile(profile);
-          return setRender(true);
+          return setShowPages(true);
         }
       }
     } catch (error) {
@@ -52,7 +52,7 @@ const PrivateRoutes = ({ children, ...rest }) => {
       );
     }
 
-    return render ? (
+    return showPages ? (
       // children = routes protected
       children
     ) : (

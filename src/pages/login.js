@@ -190,7 +190,7 @@ const Login = () => {
         <div className="w-full flex items-center justify-between pt-5">
           <hr className="w-full bg-gray-400" />
           <p className="  leading-4 px-2.5 text-gray-400">Or</p>
-          <hr className="w-full bg-gray-400  " />
+          <hr className="w-full bg-gray-400" />
         </div>
         <div className="flex justify-center mt-5">
           <GoogleLogin

@@ -63,7 +63,11 @@ const TasksPage = () => {
     const data = Object.values(tasks);
     if (!(data && data.length !== 0))
       return (
-        <Link to="/create" className="text-lg text-gray-400 font-semibold">
+        <Link
+          replace
+          to="/create"
+          className="text-lg text-gray-400 font-semibold"
+        >
           add your first task
         </Link>
       );
