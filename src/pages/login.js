@@ -127,6 +127,7 @@ const Login = () => {
         return history.push("/home");
       }
     } catch (error) {
+      console.log(error)
       setLoading(false);
       if (error.response) {
         return notify("error", error.response.data.message);

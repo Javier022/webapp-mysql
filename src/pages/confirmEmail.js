@@ -36,6 +36,7 @@ const ConfirmEmail = () => {
         return history.push("/home");
       }
     } catch (error) {
+      console.log(error)
       notify("error", error.message);
       return history.push("/login");
     }
